@@ -1,0 +1,138 @@
+.restaurantsPage {
+  min-height: 100vh;
+  background: var(--background-secondary);
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--spacing-xl) var(--spacing-md);
+
+  @media (max-width: 768px) {
+    padding: var(--spacing-lg) var(--spacing-sm);
+  }
+}
+
+.header {
+  margin-bottom: var(--spacing-xl);
+  text-align: center;
+
+  @media (max-width: 768px) {
+    margin-bottom: var(--spacing-lg);
+  }
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.75rem;
+  }
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  flex-wrap: wrap;
+
+  @media (max-width: 640px) {
+    font-size: 1rem;
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+.availability {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+
+  @media (max-width: 640px) {
+    font-size: 0.8125rem;
+  }
+}
+
+.content {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-sm);
+
+  @media (max-width: 768px) {
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+  }
+
+  @media (max-width: 640px) {
+    padding: var(--spacing-md);
+  }
+}
+
+.restaurantGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-md);
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+}
+
+.emptyState {
+  text-align: center;
+  padding: var(--spacing-2xl);
+  color: var(--text-secondary);
+
+  @media (max-width: 768px) {
+    padding: var(--spacing-xl);
+  }
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  margin-bottom: var(--spacing-lg);
+  opacity: 0.5;
+
+  @media (max-width: 768px) {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-md);
+  }
+}
+
+.emptyTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+  }
+}
+
+.emptyDescription {
+  font-size: 1rem;
+  max-width: 400px;
+  margin: 0 auto;
+  line-height: 1.5;
+
+  @media (max-width: 768px) {
+    font-size: 0.875rem;
+  }
+}

@@ -1,0 +1,102 @@
+.mobileNav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: var(--white);
+  border-top: 1px solid var(--gray-200);
+  height: var(--mobile-nav-height);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 -4px 6px -1px rgb(0 0 0 / 0.1);
+
+  @media (min-width: 769px) {
+    display: none;
+  }
+}
+
+.navItems {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 var(--spacing-sm);
+}
+
+.navItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border-radius: var(--radius-md);
+  min-width: 60px;
+
+  &:hover {
+    color: var(--primary);
+    background: var(--gray-50);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+
+  &.active {
+    color: var(--primary);
+
+    .icon {
+      transform: scale(1.1);
+    }
+
+    .label {
+      font-weight: 600;
+    }
+  }
+}
+
+.iconContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  font-size: 1.375rem;
+  transition: transform 0.2s ease;
+}
+
+.badge {
+  position: absolute;
+  top: -4px;
+  right: -8px;
+  background: var(--primary);
+  color: var(--white);
+  font-size: 0.625rem;
+  font-weight: 600;
+  padding: 2px 5px;
+  border-radius: 8px;
+  min-width: 16px;
+  text-align: center;
+  line-height: 1.2;
+  border: 2px solid var(--white);
+}
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+}
+
+// Add padding to body when mobile nav is visible
+@media (max-width: 768px) {
+  :global(body) {
+    padding-bottom: var(--mobile-nav-height);
+  }
+}

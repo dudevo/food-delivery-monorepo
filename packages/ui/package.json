@@ -28,6 +28,26 @@
         "types": "./dist/cjs/link.d.ts",
         "default": "./dist/cjs/link.js"
       }
+    },
+    "./button": {
+      "import": {
+        "types": "./dist/es/button.d.mts",
+        "default": "./dist/es/button.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/button.d.ts",
+        "default": "./dist/cjs/button.js"
+      }
+    },
+    "./input": {
+      "import": {
+        "types": "./dist/es/input.d.mts",
+        "default": "./dist/es/input.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/input.d.ts",
+        "default": "./dist/cjs/input.js"
+      }
     }
   },
   "scripts": {

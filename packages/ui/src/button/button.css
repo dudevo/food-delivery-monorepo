@@ -1,0 +1,138 @@
+/* UI Button Component - Shared across all apps */
+.ui-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: inherit;
+  font-weight: 500;
+  border: 2px solid transparent;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.ui-button:focus-visible {
+  outline: 2px solid #ff6b35;
+  outline-offset: 2px;
+}
+
+.ui-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Variants */
+.ui-button--primary {
+  background: #ff6b35;
+  color: #ffffff;
+  border-color: #ff6b35;
+}
+
+.ui-button--primary:hover:not(:disabled) {
+  background: #e55a2e;
+  border-color: #e55a2e;
+}
+
+.ui-button--primary:active {
+  transform: translateY(1px);
+}
+
+.ui-button--secondary {
+  background: #2ecc71;
+  color: #ffffff;
+  border-color: #2ecc71;
+}
+
+.ui-button--secondary:hover:not(:disabled) {
+  background: #27ae60;
+  border-color: #27ae60;
+}
+
+.ui-button--secondary:active {
+  transform: translateY(1px);
+}
+
+.ui-button--outline {
+  background: transparent;
+  color: #ff6b35;
+  border-color: #ff6b35;
+}
+
+.ui-button--outline:hover:not(:disabled) {
+  background: #ff6b35;
+  color: #ffffff;
+}
+
+.ui-button--outline:active {
+  transform: translateY(1px);
+}
+
+.ui-button--ghost {
+  background: transparent;
+  color: #111827;
+  border-color: transparent;
+}
+
+.ui-button--ghost:hover:not(:disabled) {
+  background: #f3f4f6;
+  color: #ff6b35;
+}
+
+.ui-button--ghost:active {
+  background: #e5e7eb;
+}
+
+/* Sizes */
+.ui-button--sm {
+  padding: 0.25rem 1rem;
+  font-size: 0.875rem;
+  height: 36px;
+}
+
+.ui-button--md {
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  height: 44px;
+}
+
+.ui-button--lg {
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+  height: 52px;
+}
+
+/* Modifiers */
+.ui-button--full {
+  width: 100%;
+}
+
+.ui-button--loading {
+  color: transparent;
+}
+
+.ui-button__spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1rem;
+  animation: ui-spin 1s linear infinite;
+}
+
+.ui-button__text--hidden {
+  opacity: 0;
+}
+
+@keyframes ui-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}

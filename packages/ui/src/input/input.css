@@ -1,0 +1,93 @@
+/* UI Input Component - Shared across all apps */
+.ui-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.ui-input-group--full {
+  width: 100%;
+}
+
+.ui-input__label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #111827;
+}
+
+.ui-input__container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.ui-input {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: 2px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  color: #111827;
+  background: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.ui-input::placeholder {
+  color: #9ca3af;
+}
+
+.ui-input:focus {
+  outline: none;
+  border-color: #ff6b35;
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+.ui-input:hover:not(:focus) {
+  border-color: #9ca3af;
+}
+
+.ui-input--error {
+  border-color: #ef4444;
+}
+
+.ui-input--error:focus {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.ui-input--with-icon {
+  padding-left: calc(1rem + 24px + 0.5rem);
+}
+
+.ui-input--full {
+  width: 100%;
+}
+
+.ui-input__icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  font-size: 1.125rem;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.ui-input__error {
+  font-size: 0.75rem;
+  color: #ef4444;
+  font-weight: 500;
+}
+
+.ui-input__helper {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+/* Prevent zoom on iOS */
+@media (max-width: 640px) {
+  .ui-input {
+    font-size: 16px;
+  }
+}

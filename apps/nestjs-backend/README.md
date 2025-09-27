@@ -1,98 +1,277 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# NestJS Backend - Food Delivery Platform
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A robust NestJS backend for the food delivery platform with comprehensive logging, authentication, database integration, and API documentation.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🚀 Features
 
-## Description
+- **NestJS Framework**: Modern Node.js framework with TypeScript support
+- **Database Integration**: PostgreSQL with TypeORM for robust data management
+- **Authentication**: JWT-based authentication system
+- **API Documentation**: Automated Swagger/OpenAPI documentation
+- **Logging**: Structured logging with Pino for production-ready monitoring
+- **Validation**: Request/response validation with class-validator
+- **Configuration**: Environment-based configuration management
+- **Documentation**: Code documentation with Compodoc
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 📋 Prerequisites
 
-## Project setup
+- Node.js 18+
+- PostgreSQL 12+
+- pnpm package manager
+
+## 🛠️ Setup
+
+### 1. Environment Configuration
+
+Copy the environment template and configure your local settings:
 
 ```bash
-$ pnpm install
+cp .env.local.example .env.local
 ```
 
-## Compile and run the project
+Update `.env.local` with your local configuration:
+
+```env
+# Application Settings
+NODE_ENV=development
+PORT=3001
+
+# Database Configuration
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=your_password
+DB_DATABASE=food_delivery
+
+# JWT Configuration
+JWT_SECRET=your-super-secret-key
+JWT_EXPIRES_IN=1d
+
+# CORS Configuration
+CORS_ORIGIN=http://localhost:3000
+```
+
+### 2. Database Setup
+
+Create the PostgreSQL database:
+
+```sql
+CREATE DATABASE food_delivery;
+```
+
+### 3. Installation
+
+From the repository root:
 
 ```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
+pnpm install
 ```
 
-## Run tests
+## 🏃‍♂️ Development
+
+### Start Development Server
 
 ```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+pnpm dev --filter nestjs-backend
 ```
 
-## Deployment
+The server will start at `http://localhost:3001` with:
+- API endpoints at `http://localhost:3001/api`
+- Swagger documentation at `http://localhost:3001/docs`
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Available Scripts
 
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+# Development
+pnpm dev                 # Start with hot reload
+pnpm start:debug         # Start with debug mode
+
+# Production
+pnpm build               # Build for production
+pnpm start               # Start production server
+
+# Code Quality
+pnpm lint                # Run ESLint
+pnpm format              # Format code with Prettier
+pnpm check-types         # TypeScript type checking
+
+# Testing
+pnpm test                # Run unit tests
+pnpm test:watch          # Run tests in watch mode
+pnpm test:cov            # Run tests with coverage
+pnpm test:e2e            # Run end-to-end tests
+
+# Database
+pnpm migration:generate  # Generate new migration
+pnpm migration:run       # Run pending migrations
+pnpm migration:revert    # Revert last migration
+
+# Documentation
+pnpm docs                # Generate code documentation
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## 📚 API Documentation
 
-## Resources
+Once the server is running, visit:
+- **Swagger UI**: `http://localhost:3001/docs`
+- **Code Documentation**: Run `pnpm docs` and open `docs/index.html`
 
-Check out a few resources that may come in handy when working with NestJS:
+## 🏧 Architecture
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Project Structure
 
-## Support
+```
+src/
+├── config/           # Configuration files
+│   ├── app.config.ts
+│   ├── database.config.ts
+│   └── jwt.config.ts
+├── modules/          # Feature modules
+├── entities/         # TypeORM entities
+├── migrations/       # Database migrations
+├── dto/             # Data Transfer Objects
+├── guards/          # Authentication guards
+├── interceptors/    # Request/response interceptors
+├── decorators/      # Custom decorators
+├── utils/           # Utility functions
+├── app.module.ts    # Root application module
+└── main.ts         # Application entry point
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Key Components
 
-## Stay in touch
+- **Configuration**: Environment-based configuration using `@nestjs/config`
+- **Database**: PostgreSQL with TypeORM for entity management
+- **Authentication**: JWT strategy with passport
+- **Validation**: Request validation using `class-validator` and `class-transformer`
+- **Logging**: Structured logging with `nestjs-pino`
+- **Documentation**: Auto-generated API docs with Swagger
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## 🔐 Authentication
 
-## License
+The API uses JWT bearer token authentication:
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+1. Obtain a token from the auth endpoints
+2. Include it in requests: `Authorization: Bearer <token>`
+3. Configure JWT secret in environment variables
+
+## 🗄️ Database
+
+### Entity Creation
+
+Create new entities in `src/entities/`:
+
+```typescript
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+
+@Entity()
+export class User {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  email: string;
+
+  @Column()
+  password: string;
+}
+```
+
+### Migrations
+
+Generate migrations after entity changes:
+
+```bash
+pnpm migration:generate -n AddUserTable
+pnpm migration:run
+```
+
+## 📝 Logging
+
+The application uses structured logging with Pino:
+
+```typescript
+import { Logger } from '@nestjs/common';
+
+export class UserService {
+  private readonly logger = new Logger(UserService.name);
+
+  async createUser(userData: CreateUserDto) {
+    this.logger.log('Creating new user', { email: userData.email });
+    // ... implementation
+  }
+}
+```
+
+## 🧪 Testing
+
+The project includes comprehensive testing setup:
+
+- **Unit Tests**: Jest with NestJS testing utilities
+- **E2E Tests**: Supertest for API endpoint testing
+- **Coverage**: Code coverage reporting
+
+## 🚀 Deployment
+
+### Environment Variables
+
+Ensure all production environment variables are set:
+
+```env
+NODE_ENV=production
+DATABASE_URL=postgresql://user:password@host:port/database
+JWT_SECRET=production-secret-key
+```
+
+### Build and Start
+
+```bash
+pnpm build
+NODE_ENV=production pnpm start:prod
+```
+
+## 🤝 Contributing
+
+1. Follow the existing code style and conventions
+2. Write tests for new features
+3. Update documentation as needed
+4. Run linting and type checking before commits:
+   ```bash
+   pnpm lint && pnpm check-types
+   ```
+
+## 📦 Dependencies
+
+### Core Dependencies
+- `@nestjs/common`, `@nestjs/core`: NestJS framework
+- `@nestjs/config`: Configuration management
+- `@nestjs/typeorm`, `typeorm`: Database ORM
+- `@nestjs/jwt`: JWT authentication
+- `@nestjs/swagger`: API documentation
+- `nestjs-pino`: Structured logging
+- `class-validator`, `class-transformer`: Validation
+
+### Development Dependencies
+- `@nestjs/cli`: NestJS CLI tools
+- `@nestjs/testing`: Testing utilities
+- `jest`: Testing framework
+- `supertest`: HTTP testing
+- `@compodoc/compodoc`: Documentation generation
+
+## 🆘 Troubleshooting
+
+### Common Issues
+
+1. **Database Connection**: Verify PostgreSQL is running and credentials are correct
+2. **Port Conflicts**: Check if port 3001 is available or change PORT in `.env.local`
+3. **JWT Issues**: Ensure JWT_SECRET is set and consistent across restarts
+
+### Debug Mode
+
+Start the application in debug mode:
+
+```bash
+pnpm start:debug
+```
+
+Then attach a debugger to port 9229.
