@@ -1,0 +1,256 @@
+// Food Delivery Admin Styles
+
+.sidenav-container {
+  height: 100vh;
+  background-color: #fafafa;
+}
+
+.sidenav {
+  width: 280px;
+  background-color: #fff;
+  box-shadow: 3px 0 6px rgba(0,0,0,.24);
+  
+  .sidenav-header {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+    color: white;
+    margin-bottom: 0;
+    
+    .logo-icon {
+      font-size: 32px;
+      height: 32px;
+      width: 32px;
+    }
+    
+    .logo-text {
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+  }
+  
+  .mat-mdc-list-item {
+    margin: 4px 8px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background-color: rgba(255, 107, 53, 0.08);
+    }
+    
+    &.active {
+      background-color: rgba(255, 107, 53, 0.12);
+      color: #ff6b35;
+      
+      .mat-icon {
+        color: #ff6b35;
+      }
+    }
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+  
+  .app-name {
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  
+  .spacer {
+    flex: 1 1 auto;
+  }
+}
+
+.page-content {
+  padding: 24px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  gap: 16px;
+  
+  p {
+    color: #666;
+    font-size: 16px;
+  }
+}
+
+.dashboard-container {
+  max-width: 1200px;
+  
+  h1 {
+    margin: 0 0 8px 0;
+    font-size: 28px;
+    font-weight: 400;
+    color: #333;
+  }
+  
+  .dashboard-summary {
+    color: #666;
+    font-size: 16px;
+    margin-bottom: 32px;
+  }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0,0,0,.15);
+  }
+  
+  .stat-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    
+    .mat-icon {
+      font-size: 36px;
+      height: 36px;
+      width: 36px;
+    }
+    
+    .stat-info {
+      h2 {
+        margin: 0;
+        font-size: 32px;
+        font-weight: 500;
+        line-height: 1.2;
+      }
+      
+      p {
+        margin: 4px 0 0 0;
+        color: #666;
+        font-size: 14px;
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+.dashboard-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  
+  button {
+    min-width: 160px;
+  }
+}
+
+.page-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  
+  .placeholder-card {
+    max-width: 400px;
+    text-align: center;
+    
+    .placeholder-content {
+      padding: 20px;
+      
+      .placeholder-icon {
+        font-size: 64px;
+        height: 64px;
+        width: 64px;
+        color: #999;
+        margin-bottom: 16px;
+      }
+      
+      h2 {
+        margin: 0 0 16px 0;
+        color: #333;
+      }
+      
+      p {
+        color: #666;
+        margin: 8px 0;
+        
+        strong {
+          color: #ff6b35;
+        }
+      }
+      
+      button {
+        margin-top: 16px;
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .sidenav {
+    width: 100vw;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .page-content {
+    padding: 16px;
+  }
+  
+  .dashboard-actions {
+    flex-direction: column;
+    
+    button {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .toolbar {
+    .app-name {
+      font-size: 16px;
+    }
+  }
+  
+  .dashboard-container h1 {
+    font-size: 24px;
+  }
+  
+  .stat-card .stat-content {
+    .mat-icon {
+      font-size: 28px;
+      height: 28px;
+      width: 28px;
+    }
+    
+    .stat-info h2 {
+      font-size: 24px;
+    }
+  }
+}
