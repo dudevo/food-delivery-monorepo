@@ -24,6 +24,23 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+/* Material Icons Font */
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
 /* Custom styles for food delivery admin */
 .mat-elevation-z8 {
   box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),

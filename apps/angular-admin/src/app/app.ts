@@ -12,6 +12,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
 
 // Store Import
 import { AdminStore } from './store/admin.store';
@@ -29,7 +30,8 @@ import { AdminStore } from './store/admin.store';
     MatCardModule,
     MatProgressSpinnerModule,
     MatBadgeModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDividerModule
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
