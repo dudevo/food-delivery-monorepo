@@ -80,6 +80,36 @@
         "types": "./dist/cjs/table.d.ts",
         "default": "./dist/cjs/table.js"
       }
+    },
+    "./status-badge": {
+      "import": {
+        "types": "./dist/es/status-badge.d.mts",
+        "default": "./dist/es/status-badge.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/status-badge.d.ts",
+        "default": "./dist/cjs/status-badge.js"
+      }
+    },
+    "./timeline": {
+      "import": {
+        "types": "./dist/es/timeline.d.mts",
+        "default": "./dist/es/timeline.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/timeline.d.ts",
+        "default": "./dist/cjs/timeline.js"
+      }
+    },
+    "./order-card": {
+      "import": {
+        "types": "./dist/es/order-card.d.mts",
+        "default": "./dist/es/order-card.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/order-card.d.ts",
+        "default": "./dist/cjs/order-card.js"
+      }
     }
   },
   "dependencies": {

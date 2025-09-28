@@ -1,0 +1,230 @@
+.metricsCard {
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  &--primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: var(--white);
+    border-color: var(--primary);
+  }
+
+  &--success {
+    background: linear-gradient(135deg, var(--success), #059669);
+    color: var(--white);
+    border-color: var(--success);
+  }
+
+  &--warning {
+    background: linear-gradient(135deg, var(--warning), #d97706);
+    color: var(--white);
+    border-color: var(--warning);
+  }
+
+  &--info {
+    background: linear-gradient(135deg, var(--info), #2563eb);
+    color: var(--white);
+    border-color: var(--info);
+  }
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-md);
+}
+
+.cardIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+}
+
+.metricsCard:not(.metricsCard--primary):not(.metricsCard--success):not(.metricsCard--warning):not(.metricsCard--info) .cardIcon {
+  background: var(--gray-100);
+  color: var(--text-primary);
+}
+
+.cardTrend {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+
+  &--positive {
+    color: var(--success);
+  }
+
+  &--negative {
+    color: var(--error);
+  }
+
+  &--neutral {
+    color: var(--text-muted);
+  }
+}
+
+.metricsCard:not(.metricsCard--primary):not(.metricsCard--success):not(.metricsCard--warning):not(.metricsCard--info) .cardTrend {
+  background: var(--gray-100);
+
+  &--positive {
+    background: rgba(16, 185, 129, 0.1);
+  }
+
+  &--negative {
+    background: rgba(239, 68, 68, 0.1);
+  }
+}
+
+.trendIcon {
+  width: 12px;
+  height: 12px;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.metricValue {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  margin: 0;
+}
+
+.metricLabel {
+  font-size: 0.875rem;
+  opacity: 0.9;
+  margin: 0;
+  font-weight: 500;
+}
+
+.metricSubtext {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  margin: 0;
+  margin-top: var(--spacing-xs);
+}
+
+.cardFooter {
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: between;
+  gap: var(--spacing-sm);
+}
+
+.metricsCard:not(.metricsCard--primary):not(.metricsCard--success):not(.metricsCard--warning):not(.metricsCard--info) .cardFooter {
+  border-top-color: var(--border-color);
+}
+
+.footerText {
+  font-size: 0.75rem;
+  opacity: 0.8;
+  flex: 1;
+}
+
+.footerAction {
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-decoration: underline;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.progressBar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-top: var(--spacing-sm);
+}
+
+.metricsCard:not(.metricsCard--primary):not(.metricsCard--success):not(.metricsCard--warning):not(.metricsCard--info) .progressBar {
+  background: var(--gray-200);
+}
+
+.progressFill {
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: var(--radius-sm);
+  transition: width 0.3s ease;
+}
+
+.metricsCard:not(.metricsCard--primary):not(.metricsCard--success):not(.metricsCard--warning):not(.metricsCard--info) .progressFill {
+  background: var(--primary);
+}
+
+// Background pattern
+.metricsCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(30px, -30px);
+}
+
+// Mobile responsive
+@media (max-width: 768px) {
+  .metricsCard {
+    padding: var(--spacing-md);
+  }
+
+  .cardIcon {
+    width: 36px;
+    height: 36px;
+    font-size: 1.25rem;
+  }
+
+  .metricValue {
+    font-size: 1.5rem;
+  }
+
+  .cardHeader {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .cardFooter {
+    margin-top: var(--spacing-sm);
+    padding-top: var(--spacing-sm);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+}

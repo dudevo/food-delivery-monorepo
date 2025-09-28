@@ -3,6 +3,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Layout } from './components/layout/Layout';
 import { Dashboard } from './pages/Dashboard';
 import { Orders } from './pages/Orders';
+import { Menu } from './pages/Menu';
+import { Analytics } from './pages/Analytics';
+import { Settings } from './pages/Settings';
+import { Profile } from './pages/Profile';
 
 const App: React.FC = () => {
   return (
@@ -11,10 +15,10 @@ const App: React.FC = () => {
         <Route path="/" element={<Layout />}>
           <Route index element={<Dashboard />} />
           <Route path="orders" element={<Orders />} />
-          <Route path="menu" element={<div>Menu Management - Coming Soon</div>} />
-          <Route path="analytics" element={<div>Analytics - Coming Soon</div>} />
-          <Route path="profile" element={<div>Profile - Coming Soon</div>} />
-          <Route path="settings" element={<div>Settings - Coming Soon</div>} />
+          <Route path="menu" element={<Menu />} />
+          <Route path="analytics" element={<Analytics />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="settings" element={<Settings />} />
         </Route>
       </Routes>
     </BrowserRouter>

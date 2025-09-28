@@ -1,0 +1,390 @@
+.analyticsPage {
+  padding: var(--spacing-xl);
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.pageHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
+
+.headerContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.pageTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.pageSubtitle {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.dateRangeSelector {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.exportButton {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text-primary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+
+  &:hover {
+    background: var(--gray-50);
+    border-color: var(--primary);
+  }
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.chartsSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.sectionIcon {
+  width: 24px;
+  height: 24px;
+  color: var(--primary);
+}
+
+.chartsGrid {
+  display: grid;
+  gap: var(--spacing-lg);
+
+  &--two-column {
+    grid-template-columns: 2fr 1fr;
+  }
+
+  &--three-column {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  &--single-column {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fullWidthChart {
+  grid-column: 1 / -1;
+}
+
+.insightsSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.insightsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.insightCard {
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.insightHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.insightIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--primary);
+}
+
+.insightTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.insightContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.insightText {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.insightMetrics {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.insightMetric {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.metricValue {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.performanceSection {
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+}
+
+.performanceHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-lg);
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
+
+.performanceTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.performanceFilters {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.filterSelect {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(255, 48, 8, 0.1);
+  }
+}
+
+.performanceTable {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.tableHeader {
+  background: var(--gray-50);
+}
+
+.tableHeaderCell {
+  padding: var(--spacing-md);
+  text-align: left;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tableRow {
+  border-bottom: 1px solid var(--border-color);
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: var(--gray-50);
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.tableCell {
+  padding: var(--spacing-md);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.itemName {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.trendIndicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+
+  &--positive {
+    color: var(--success);
+  }
+
+  &--negative {
+    color: var(--error);
+  }
+
+  &--neutral {
+    color: var(--text-muted);
+  }
+}
+
+.trendIcon {
+  width: 12px;
+  height: 12px;
+}
+
+// Mobile responsive
+@media (max-width: 1024px) {
+  .analyticsPage {
+    padding: var(--spacing-lg);
+  }
+
+  .metricsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+  }
+
+  .chartsGrid {
+    &--two-column,
+    &--three-column {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .insightsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .analyticsPage {
+    padding: var(--spacing-md);
+  }
+
+  .pageHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-lg);
+  }
+
+  .headerActions {
+    align-self: stretch;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .metricsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-sm);
+  }
+
+  .performanceSection {
+    padding: var(--spacing-lg);
+  }
+
+  .performanceHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .performanceTable {
+    font-size: 0.75rem;
+  }
+
+  .tableHeaderCell,
+  .tableCell {
+    padding: var(--spacing-sm);
+  }
+
+  // Hide some columns on mobile
+  .tableHeaderCell:nth-child(n+4),
+  .tableCell:nth-child(n+4) {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .metricsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .tableHeaderCell:nth-child(n+3),
+  .tableCell:nth-child(n+3) {
+    display: none;
+  }
+}

@@ -1,0 +1,181 @@
+.ui-order-card {
+  background-color: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #edf1f5);
+  border-radius: var(--radius-lg, 1rem);
+  box-shadow: var(--shadow-sm, 0 1px 2px rgba(15, 23, 42, 0.1));
+  padding: var(--spacing-lg, 1.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md, 1rem);
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+}
+
+.ui-order-card:hover {
+  box-shadow: var(--shadow-md, 0 8px 20px rgba(15, 23, 42, 0.08));
+  transform: translateY(-2px);
+}
+
+.ui-order-card--selected {
+  border-color: var(--color-primary, #ff3008);
+  box-shadow: 0 0 0 1px var(--color-primary, #ff3008);
+}
+
+.ui-order-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-md, 1rem);
+}
+
+.ui-order-card__title {
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-text-primary, #111827);
+  margin: 0 0 0.25rem 0;
+}
+
+.ui-order-card__subtitle {
+  color: var(--color-text-muted, #6b7280);
+  font-size: 0.875rem;
+}
+
+.ui-order-card__order-id {
+  font-size: 0.75rem;
+  color: var(--color-text-muted, #6b7280);
+  font-family: monospace;
+}
+
+.ui-order-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm, 0.75rem);
+}
+
+.ui-order-card__locations {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm, 0.75rem);
+}
+
+.ui-order-card__location {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm, 0.75rem);
+  padding: var(--spacing-sm, 0.75rem);
+  background: var(--color-background, #f9fafb);
+  border-radius: var(--radius-md, 0.75rem);
+}
+
+.ui-order-card__location-icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--color-text-muted, #6b7280);
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.ui-order-card__location-info {
+  flex: 1;
+}
+
+.ui-order-card__location-label {
+  font-size: 0.75rem;
+  color: var(--color-text-muted, #6b7280);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  font-weight: var(--font-weight-medium, 500);
+  margin-bottom: 0.125rem;
+}
+
+.ui-order-card__location-address {
+  font-size: 0.875rem;
+  color: var(--color-text-primary, #111827);
+  line-height: 1.4;
+}
+
+.ui-order-card__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md, 1rem);
+  padding-top: var(--spacing-sm, 0.75rem);
+  border-top: 1px solid var(--color-border, #edf1f5);
+}
+
+.ui-order-card__earnings {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-success, #10b981);
+}
+
+.ui-order-card__distance {
+  font-size: 0.875rem;
+  color: var(--color-text-muted, #6b7280);
+}
+
+.ui-order-card__time {
+  font-size: 0.875rem;
+  color: var(--color-text-muted, #6b7280);
+}
+
+.ui-order-card__footer {
+  display: flex;
+  gap: var(--spacing-sm, 0.75rem);
+  margin-top: var(--spacing-sm, 0.75rem);
+}
+
+.ui-order-card__footer .ui-button {
+  flex: 1;
+}
+
+.ui-order-card__special-instructions {
+  padding: var(--spacing-sm, 0.75rem);
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: var(--radius-md, 0.75rem);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, #4b5563);
+}
+
+.ui-order-card__special-instructions-label {
+  font-weight: var(--font-weight-medium, 500);
+  color: #d97706;
+  margin-bottom: 0.25rem;
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+/* Compact variant */
+.ui-order-card--compact {
+  padding: var(--spacing-md, 1rem);
+}
+
+.ui-order-card--compact .ui-order-card__locations {
+  gap: var(--spacing-xs, 0.5rem);
+}
+
+.ui-order-card--compact .ui-order-card__location {
+  padding: var(--spacing-xs, 0.5rem) var(--spacing-sm, 0.75rem);
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .ui-order-card {
+    padding: var(--spacing-md, 1rem);
+  }
+
+  .ui-order-card__meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm, 0.75rem);
+  }
+
+  .ui-order-card__footer {
+    flex-direction: column;
+  }
+}

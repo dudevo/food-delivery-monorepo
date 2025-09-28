@@ -1,0 +1,377 @@
+.container {
+  padding: var(--spacing-lg);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: var(--spacing-xl);
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-sm) 0;
+}
+
+.subtitle {
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.settingsCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.cardHeader {
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+  background: linear-gradient(135deg, rgba(255, 48, 8, 0.05) 0%, rgba(0, 168, 204, 0.05) 100%);
+}
+
+.cardTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.cardIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--color-primary);
+}
+
+.settingsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+}
+
+.settingGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.input,
+.select {
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(255, 48, 8, 0.1);
+  }
+}
+
+.toggleList {
+  padding: var(--spacing-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+.toggleItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-md) 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.toggleInfo {
+  flex: 1;
+}
+
+.toggleTitle {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin: 0 0 0.25rem 0;
+}
+
+.toggleDescription {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.toggle {
+  position: relative;
+  width: 48px;
+  height: 28px;
+  background: #d1d5db;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  flex-shrink: 0;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 48, 8, 0.1);
+  }
+
+  &--active {
+    background: var(--color-primary);
+  }
+}
+
+.toggleHandle {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  background: white;
+  border-radius: 12px;
+  transition: transform 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+  .toggle--active & {
+    transform: translateX(20px);
+  }
+}
+
+.workingHours {
+  padding: var(--spacing-lg);
+}
+
+.dayRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-sm);
+  background: var(--color-surface);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.dayInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  min-width: 140px;
+}
+
+.dayLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  min-width: 80px;
+}
+
+.dayToggle {
+  position: relative;
+  width: 40px;
+  height: 24px;
+  background: #d1d5db;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 48, 8, 0.1);
+  }
+
+  &--active {
+    background: var(--color-success);
+  }
+}
+
+.dayToggleHandle {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 10px;
+  transition: transform 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+
+  .dayToggle--active & {
+    transform: translateX(16px);
+  }
+}
+
+.timeInputs {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.timeInput {
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(255, 48, 8, 0.1);
+  }
+}
+
+.timeSeparator {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.dayOff {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-lg) 0;
+}
+
+.button {
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.primaryButton {
+  background: var(--color-primary);
+  color: white;
+
+  &:hover:not(:disabled) {
+    background: var(--color-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 48, 8, 0.3);
+  }
+}
+
+// Mobile responsive
+@media (max-width: 768px) {
+  .container {
+    padding: var(--spacing-md);
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .settingsGrid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+  }
+
+  .toggleList {
+    padding: var(--spacing-md);
+  }
+
+  .toggleItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+
+  .dayRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+  }
+
+  .dayInfo {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .timeInputs {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .workingHours {
+    padding: var(--spacing-md);
+  }
+
+  .cardHeader {
+    padding: var(--spacing-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: var(--spacing-sm);
+  }
+
+  .settingsCard {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .toggle {
+    width: 44px;
+    height: 24px;
+  }
+
+  .toggleHandle {
+    width: 20px;
+    height: 20px;
+
+    .toggle--active & {
+      transform: translateX(20px);
+    }
+  }
+}

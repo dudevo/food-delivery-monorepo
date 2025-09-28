@@ -1,0 +1,260 @@
+.chartContainer {
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: var(--shadow-md);
+  }
+}
+
+.chartHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.chartTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.chartActions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.periodSelector {
+  display: flex;
+  background: var(--gray-100);
+  border-radius: var(--radius-md);
+  padding: 0.25rem;
+}
+
+.periodButton {
+  padding: 0.375rem 0.75rem;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.75rem;
+  font-weight: 500;
+
+  &:hover {
+    color: var(--text-primary);
+  }
+
+  &--active {
+    background: var(--white);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-sm);
+  }
+}
+
+.chartContent {
+  position: relative;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-md);
+  background: var(--gray-50);
+}
+
+.chartPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--text-muted);
+}
+
+.placeholderIcon {
+  font-size: 3rem;
+  opacity: 0.5;
+}
+
+.placeholderTitle {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.placeholderDescription {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin: 0;
+  max-width: 300px;
+  line-height: 1.5;
+}
+
+.chartLegend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--border-color);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.legendColor {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.chartStats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--border-color);
+}
+
+.statItem {
+  text-align: center;
+}
+
+.statValue {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.25rem 0;
+}
+
+.statLabel {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.exportButton {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  &:hover {
+    background: var(--gray-50);
+    color: var(--text-primary);
+    border-color: var(--primary);
+  }
+}
+
+.exportIcon {
+  width: 12px;
+  height: 12px;
+}
+
+// Chart type specific styles
+.chartContainer--line {
+  .chartContent {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 48, 8, 0.05) 50%,
+      transparent 100%
+    );
+  }
+}
+
+.chartContainer--bar {
+  .chartContent {
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 20px,
+      rgba(255, 48, 8, 0.05) 20px,
+      rgba(255, 48, 8, 0.05) 40px
+    );
+  }
+}
+
+.chartContainer--pie {
+  .chartContent {
+    background: radial-gradient(
+      circle,
+      rgba(255, 48, 8, 0.05) 30%,
+      transparent 31%
+    );
+  }
+}
+
+// Mobile responsive
+@media (max-width: 768px) {
+  .chartContainer {
+    padding: var(--spacing-md);
+  }
+
+  .chartHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+
+  .chartActions {
+    align-self: stretch;
+  }
+
+  .periodSelector {
+    flex: 1;
+  }
+
+  .periodButton {
+    flex: 1;
+    text-align: center;
+  }
+
+  .chartContent {
+    min-height: 150px;
+  }
+
+  .placeholderIcon {
+    font-size: 2rem;
+  }
+
+  .chartLegend {
+    gap: var(--spacing-md);
+  }
+
+  .chartStats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-sm);
+  }
+}

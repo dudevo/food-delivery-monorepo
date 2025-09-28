@@ -1,0 +1,288 @@
+.menuItemForm {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-lg);
+  max-width: 600px;
+  width: 100%;
+}
+
+.formHeader {
+  margin-bottom: var(--spacing-xl);
+  text-align: center;
+}
+
+.formTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-sm) 0;
+}
+
+.formSubtitle {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.formSection {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.sectionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.sectionIcon {
+  width: 16px;
+  height: 16px;
+  color: var(--primary);
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.formLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.formInput {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(255, 48, 8, 0.1);
+  }
+
+  &::placeholder {
+    color: var(--text-muted);
+  }
+}
+
+.formTextarea {
+  @extend .formInput;
+  min-height: 80px;
+  resize: vertical;
+}
+
+.formSelect {
+  @extend .formInput;
+  cursor: pointer;
+}
+
+.checkboxGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+
+  &:checked {
+    background: var(--primary);
+    border-color: var(--primary);
+  }
+
+  &:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--white);
+    font-size: 12px;
+    font-weight: bold;
+  }
+}
+
+.imageUpload {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.imagePreview {
+  width: 120px;
+  height: 120px;
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gray-50);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  overflow: hidden;
+
+  &:hover {
+    border-color: var(--primary);
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.uploadButton {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--gray-50);
+    border-color: var(--primary);
+  }
+}
+
+.allergenTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.allergenTag {
+  padding: 0.25rem 0.5rem;
+  background: var(--gray-100);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--gray-200);
+  }
+
+  &--selected {
+    background: var(--primary);
+    color: var(--white);
+    border-color: var(--primary);
+  }
+}
+
+.nutritionGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-md);
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--border-color);
+}
+
+.actionButton {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &--secondary {
+    background: var(--surface);
+    color: var(--text-primary);
+
+    &:hover {
+      background: var(--gray-50);
+    }
+  }
+
+  &--primary {
+    background: var(--primary);
+    color: var(--white);
+    border-color: var(--primary);
+
+    &:hover {
+      background: var(--primary-dark);
+    }
+
+    &:disabled {
+      background: var(--gray-400);
+      border-color: var(--gray-400);
+      cursor: not-allowed;
+    }
+  }
+}
+
+.errorMessage {
+  color: var(--error);
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+// Mobile responsive
+@media (max-width: 768px) {
+  .menuItemForm {
+    padding: var(--spacing-lg);
+    max-width: none;
+    border-radius: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .nutritionGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .formActions {
+    flex-direction: column;
+  }
+
+  .allergenTags {
+    justify-content: center;
+  }
+}

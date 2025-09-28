@@ -1,0 +1,63 @@
+@use '../../styles/tokens' as *;
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-background);
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.sidebar {
+  flex-shrink: 0;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin-left: var(--layout-sidebar-width);
+  transition: margin-left 0.3s ease;
+}
+
+.content--collapsed {
+  margin-left: var(--layout-sidebar-collapsed-width);
+}
+
+.content--no-sidebar {
+  margin-left: 0;
+}
+
+.contentArea {
+  flex: 1;
+  padding: var(--layout-content-padding);
+  overflow-y: auto;
+}
+
+@media (max-width: 1024px) {
+  .content {
+    margin-left: 0;
+  }
+
+  .content--collapsed,
+  .content--no-sidebar {
+    margin-left: 0;
+  }
+
+  .contentArea {
+    padding-bottom: calc(var(--layout-content-padding) + var(--layout-bottom-nav-height));
+  }
+}
+
+@media (max-width: 640px) {
+  .contentArea {
+    padding: var(--spacing-md);
+    padding-bottom: calc(var(--spacing-md) + var(--layout-bottom-nav-height));
+  }
+}

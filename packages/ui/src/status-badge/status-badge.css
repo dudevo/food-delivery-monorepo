@@ -1,0 +1,104 @@
+.ui-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-weight: 500;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  white-space: nowrap;
+}
+
+.ui-status-badge__indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Status Variants */
+.ui-status-badge--online {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+}
+
+.ui-status-badge--online .ui-status-badge__indicator {
+  background: #059669;
+}
+
+.ui-status-badge--offline {
+  background: rgba(107, 114, 128, 0.1);
+  color: #4b5563;
+}
+
+.ui-status-badge--offline .ui-status-badge__indicator {
+  background: #4b5563;
+}
+
+.ui-status-badge--pickup {
+  background: rgba(245, 158, 11, 0.1);
+  color: #d97706;
+}
+
+.ui-status-badge--pickup .ui-status-badge__indicator {
+  background: #d97706;
+}
+
+.ui-status-badge--enroute {
+  background: rgba(59, 130, 246, 0.1);
+  color: #2563eb;
+}
+
+.ui-status-badge--enroute .ui-status-badge__indicator {
+  background: #2563eb;
+}
+
+.ui-status-badge--delivered {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+}
+
+.ui-status-badge--delivered .ui-status-badge__indicator {
+  background: #059669;
+}
+
+.ui-status-badge--pending {
+  background: rgba(107, 114, 128, 0.1);
+  color: #4b5563;
+}
+
+.ui-status-badge--pending .ui-status-badge__indicator {
+  background: #4b5563;
+}
+
+.ui-status-badge--active {
+  background: rgba(255, 48, 8, 0.1);
+  color: #dc2626;
+}
+
+.ui-status-badge--active .ui-status-badge__indicator {
+  background: #dc2626;
+}
+
+/* Size variants */
+.ui-status-badge--sm {
+  padding: 0.125rem 0.5rem;
+  font-size: 0.625rem;
+}
+
+.ui-status-badge--sm .ui-status-badge__indicator {
+  width: 4px;
+  height: 4px;
+}
+
+.ui-status-badge--lg {
+  padding: 0.375rem 1rem;
+  font-size: 0.875rem;
+}
+
+.ui-status-badge--lg .ui-status-badge__indicator {
+  width: 8px;
+  height: 8px;
+}

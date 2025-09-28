@@ -1,0 +1,137 @@
+.communicationSettings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.settingItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  cursor: pointer;
+  padding: var(--spacing-md);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--gray-25);
+    border-color: var(--primary);
+  }
+
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+}
+
+.checkmark {
+  height: 20px;
+  width: 20px;
+  background-color: var(--surface);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  position: relative;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+
+  &:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  input:checked ~ & {
+    background-color: var(--primary);
+    border-color: var(--primary);
+  }
+
+  input:checked ~ &:after {
+    display: block;
+  }
+
+  input:focus ~ & {
+    box-shadow: 0 0 0 3px rgba(255, 48, 8, 0.1);
+  }
+}
+
+.settingContent {
+  flex: 1;
+}
+
+.settingLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.settingDescription {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.dangerZone {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--error);
+  border-radius: var(--radius-md);
+  background: rgba(220, 53, 69, 0.05);
+}
+
+.actionGroup {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-md);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.actionInfo {
+  flex: 1;
+}
+
+.actionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.25rem 0;
+}
+
+.actionDescription {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+// Mobile responsive
+@media (max-width: 768px) {
+  .settingItem {
+    padding: var(--spacing-sm);
+  }
+
+  .actionGroup {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+}
