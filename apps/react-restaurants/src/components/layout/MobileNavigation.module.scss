@@ -1,0 +1,89 @@
+.mobileNav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--mobile-nav-height);
+  background: var(--surface);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  z-index: 100;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+.mobileNavItem {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  padding: var(--spacing-xs);
+  position: relative;
+
+  &:hover {
+    color: var(--primary);
+    background: var(--gray-50);
+  }
+
+  &--active {
+    color: var(--primary);
+    background: var(--gray-50);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 24px;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 0 0 2px 2px;
+    }
+  }
+}
+
+.mobileNavIcon {
+  font-size: 1.25rem;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+}
+
+.mobileNavLabel {
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.badge {
+  position: absolute;
+  top: 4px;
+  right: 50%;
+  transform: translateX(16px);
+  background: var(--error);
+  color: var(--white);
+  font-size: 0.625rem;
+  font-weight: 600;
+  padding: 1px 4px;
+  border-radius: var(--radius-xl);
+  min-width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}

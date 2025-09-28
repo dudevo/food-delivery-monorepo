@@ -1,0 +1,88 @@
+.form {
+  display: grid;
+  gap: var(--spacing-xl);
+}
+
+.section {
+  display: grid;
+  gap: var(--spacing-md);
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xs);
+}
+
+.sectionTitle {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.sectionSubtitle {
+  color: var(--color-text-muted);
+  max-width: 60ch;
+}
+
+.grid {
+  display: grid;
+  gap: var(--spacing-md);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.selectField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xs);
+}
+
+.selectField label {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+
+.selectField select {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.55rem 0.75rem;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+.toggleList {
+  display: grid;
+  gap: var(--spacing-sm);
+}
+
+.toggleItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.toggleItem input[type='checkbox'] {
+  margin-top: 0.25rem;
+}
+
+.toggleContent {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.toggleTitle {
+  font-weight: var(--font-weight-medium);
+}
+
+.toggleDescription {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.actionBar {
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: flex-end;
+}

@@ -1,0 +1,44 @@
+.ui-chart-placeholder {
+  display: grid;
+  gap: var(--spacing-sm);
+}
+
+.ui-chart-placeholder__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ui-chart-placeholder__title {
+  font-size: 0.95rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.ui-chart-placeholder__assistive-text {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.ui-chart-placeholder__canvas {
+  min-height: 180px;
+  border-radius: var(--radius-md);
+  border: 1px dashed rgba(0, 0, 0, 0.08);
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(255, 48, 8, 0.06),
+    rgba(255, 48, 8, 0.06) 10px,
+    rgba(255, 48, 8, 0.03) 10px,
+    rgba(255, 48, 8, 0.03) 20px
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.ui-chart-placeholder__description {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}

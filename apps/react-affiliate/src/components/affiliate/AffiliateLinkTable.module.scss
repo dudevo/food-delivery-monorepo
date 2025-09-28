@@ -1,0 +1,29 @@
+.tableActions {
+  display: inline-flex;
+  gap: var(--spacing-2xs);
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: var(--font-weight-medium);
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+}
+
+.statusActive {
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--color-success);
+}
+
+.statusPaused {
+  background: rgba(245, 158, 11, 0.12);
+  color: var(--color-warning);
+}
+
+.statusArchived {
+  background: rgba(107, 114, 128, 0.12);
+  color: var(--color-text-muted);
+}

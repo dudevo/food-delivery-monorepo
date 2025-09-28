@@ -1,0 +1,24 @@
+.page {
+  display: grid;
+  gap: var(--spacing-xl);
+}
+
+.summaryGrid {
+  display: grid;
+  gap: var(--spacing-lg);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.requestCard {
+  display: grid;
+  gap: var(--spacing-sm);
+}
+
+.tableCard {
+  display: grid;
+  gap: var(--spacing-md);
+}
+
+.description {
+  color: var(--color-text-muted);
+}

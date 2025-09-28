@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
-  "sideEffects": false,
+  "sideEffects": [
+    "**/*.css"
+  ],
   "files": [
     "dist/**",
     "dist"
@@ -39,6 +41,26 @@
         "default": "./dist/cjs/button.js"
       }
     },
+    "./card": {
+      "import": {
+        "types": "./dist/es/card.d.mts",
+        "default": "./dist/es/card.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/card.d.ts",
+        "default": "./dist/cjs/card.js"
+      }
+    },
+    "./chart-placeholder": {
+      "import": {
+        "types": "./dist/es/chart-placeholder.d.mts",
+        "default": "./dist/es/chart-placeholder.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/chart-placeholder.d.ts",
+        "default": "./dist/cjs/chart-placeholder.js"
+      }
+    },
     "./input": {
       "import": {
         "types": "./dist/es/input.d.mts",
@@ -48,7 +70,20 @@
         "types": "./dist/cjs/input.d.ts",
         "default": "./dist/cjs/input.js"
       }
+    },
+    "./table": {
+      "import": {
+        "types": "./dist/es/table.d.mts",
+        "default": "./dist/es/table.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/table.d.ts",
+        "default": "./dist/cjs/table.js"
+      }
     }
+  },
+  "dependencies": {
+    "@swc/helpers": "^0.5.5"
   },
   "scripts": {
     "build": "bunchee",

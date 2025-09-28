@@ -1,0 +1,31 @@
+.page {
+  display: grid;
+  gap: var(--spacing-xl);
+}
+
+.formCard {
+  display: grid;
+  gap: var(--spacing-lg);
+}
+
+.formHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xs);
+}
+
+.description {
+  color: var(--color-text-muted);
+  max-width: 60ch;
+}
+
+.linkTableCard {
+  display: grid;
+  gap: var(--spacing-md);
+}
+
+.filters {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}

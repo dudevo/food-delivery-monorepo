@@ -1,0 +1,31 @@
+.card {
+  display: grid;
+  gap: var(--spacing-sm);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.value {
+  font-size: 1.75rem;
+  font-weight: var(--font-weight-semibold);
+}
+
+.status {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+.status strong {
+  color: var(--color-primary);
+}

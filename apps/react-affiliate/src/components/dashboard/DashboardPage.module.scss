@@ -1,0 +1,81 @@
+.dashboard {
+  display: grid;
+  gap: var(--spacing-xl);
+}
+
+.summaryGrid {
+  display: grid;
+  gap: var(--spacing-lg);
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+.chartRow {
+  display: grid;
+  gap: var(--spacing-lg);
+  grid-template-columns: 2fr 1fr;
+}
+
+.quickActions {
+  display: grid;
+  gap: var(--spacing-sm);
+}
+
+.quickActionsTitle {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.quickActionsDescription {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.quickActionsList {
+  display: grid;
+  gap: var(--spacing-sm);
+}
+
+.insightsGrid {
+  display: grid;
+  gap: var(--spacing-lg);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.timeline {
+  display: grid;
+  gap: var(--spacing-sm);
+}
+
+.timelineItem {
+  display: grid;
+  gap: 0.15rem;
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-md);
+  background: rgba(0, 168, 204, 0.08);
+}
+
+.timelineTimestamp {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.timelineDescription {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 1024px) {
+  .chartRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .summaryGrid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  }
+
+  .dashboard {
+    gap: var(--spacing-lg);
+  }
+}

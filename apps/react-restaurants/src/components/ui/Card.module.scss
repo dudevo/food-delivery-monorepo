@@ -1,0 +1,78 @@
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  &--clickable {
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+  }
+
+  &--outline {
+    border: 2px solid var(--border-color);
+    box-shadow: none;
+
+    &:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-sm);
+    }
+  }
+
+  &--flat {
+    box-shadow: none;
+    border: none;
+    background: transparent;
+  }
+}
+
+.cardHeader {
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--border-color);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.cardContent {
+  padding: var(--spacing-lg);
+}
+
+.cardFooter {
+  padding: var(--spacing-lg);
+  border-top: 1px solid var(--border-color);
+  background: var(--background-secondary);
+
+  &:first-child {
+    border-top: none;
+  }
+}
+
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.cardSubtitle {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 0;
+}
+
+.cardDescription {
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
