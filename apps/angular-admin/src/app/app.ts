@@ -1,5 +1,5 @@
-import { Component, signal, inject, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, signal, inject, OnInit, DestroyRef } from '@angular/core';
+import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 // Angular Material Imports
@@ -13,9 +13,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 // Store Import
 import { AdminStore } from './store/admin.store';
+import { filter } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-root',
@@ -31,7 +34,8 @@ import { AdminStore } from './store/admin.store';
     MatProgressSpinnerModule,
     MatBadgeModule,
     MatMenuModule,
-    MatDividerModule
+    MatDividerModule,
+    MatSnackBarModule
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
@@ -39,21 +43,35 @@ import { AdminStore } from './store/admin.store';
 export class App implements OnInit {
   protected readonly title = signal('Food Delivery Admin');
   protected readonly store = inject(AdminStore);
+  protected readonly router = inject(Router);
   protected readonly isSidenavOpen = signal(true);
-  
+  private readonly destroyRef = inject(DestroyRef);
+
   ngOnInit() {
     // Load initial data when the app starts
     this.store.loadInitialData();
+
+    this.router.events
+      .pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(event => {
+        const [, firstSegment = 'dashboard'] = event.urlAfterRedirects.split('/');
+        this.store.setSelectedMenuItem(firstSegment || 'dashboard');
+      });
   }
-  
+
   protected toggleSidenav() {
     this.isSidenavOpen.update(value => !value);
   }
-  
+
   protected selectMenuItem(menuItem: string) {
     this.store.setSelectedMenuItem(menuItem);
+    // Navigate to the appropriate route
+    this.router.navigate([`/${menuItem}`]);
   }
-  
+
   protected logout() {
     this.store.logoutUser();
   }

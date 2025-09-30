@@ -127,9 +127,11 @@ export default function Home() {
               <p className={styles.featureDescription}>
                 Get your favorite foods from restaurants delivered faster than you can say "delicious."
               </p>
-              <Button variant="primary" size="lg">
-                Start ordering
-              </Button>
+              <Link href="/restaurants">
+                <Button variant="primary" size="lg">
+                  Start ordering
+                </Button>
+              </Link>
             </div>
             <div className={styles.featureImage}>
               <Image
@@ -158,9 +160,11 @@ export default function Home() {
               <p className={styles.featureDescription}>
                 Members get a $0 Delivery Fee on orders over $12, reduced service fees, and exclusive offers.
               </p>
-              <Button variant="primary" size="lg">
-                Try DashPass
-              </Button>
+              <Link href="/dashpass">
+                <Button variant="primary" size="lg">
+                  Try DashPass
+                </Button>
+              </Link>
             </div>
           </div>
 
@@ -171,9 +175,11 @@ export default function Home() {
               <p className={styles.featureDescription}>
                 Get everything from produce and pantry items to beauty and baby essentials delivered in as little as 1 hour.
               </p>
-              <Button variant="primary" size="lg">
-                Shop now
-              </Button>
+              <Link href="/restaurants?category=grocery">
+                <Button variant="primary" size="lg">
+                  Shop now
+                </Button>
+              </Link>
             </div>
             <div className={styles.featureImage}>
               <Image
@@ -202,9 +208,11 @@ export default function Home() {
               <p className={styles.featureDescription}>
                 Stock up on snacks, drinks, and daily essentials delivered from your favorite convenience stores.
               </p>
-              <Button variant="primary" size="lg">
-                Shop convenience
-              </Button>
+              <Link href="/restaurants?category=convenience">
+                <Button variant="primary" size="lg">
+                  Shop convenience
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
