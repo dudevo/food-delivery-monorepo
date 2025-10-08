@@ -11,13 +11,12 @@ import {
   DocumentVerificationAction,
   DocumentVerificationStatus,
   CuisineType,
-  PriceRange,
   RestaurantFeature,
-  DocumentType
+  DocumentType,
 } from '../types/restaurant.types';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RestaurantService {
   private restaurants = signal<Restaurant[]>([]);
@@ -31,8 +30,9 @@ export class RestaurantService {
     const mockRestaurants: Restaurant[] = [
       {
         id: '1',
-        name: 'Mama\'s Italian Kitchen',
-        description: 'Authentic Italian cuisine with family recipes passed down through generations',
+        name: "Mama's Italian Kitchen",
+        description:
+          'Authentic Italian cuisine with family recipes passed down through generations',
         email: 'info@mamasitalian.com',
         phone: '+1-555-0201',
         ownerId: '2',
@@ -44,8 +44,8 @@ export class RestaurantService {
           zipCode: '10013',
           country: 'USA',
           latitude: 40.7128,
-          longitude: -74.0060,
-          deliveryRadius: 5
+          longitude: -74.006,
+          deliveryRadius: 5,
         },
         cuisine: ['italian', 'pizza'],
         status: 'active',
@@ -60,7 +60,7 @@ export class RestaurantService {
           thursday: { isOpen: true, openTime: '11:00', closeTime: '22:00' },
           friday: { isOpen: true, openTime: '11:00', closeTime: '23:00' },
           saturday: { isOpen: true, openTime: '11:00', closeTime: '23:00' },
-          sunday: { isOpen: true, openTime: '12:00', closeTime: '21:00' }
+          sunday: { isOpen: true, openTime: '12:00', closeTime: '21:00' },
         },
         features: ['delivery', 'pickup', 'dine_in', 'wifi', 'accepts_cards'],
         images: [
@@ -68,8 +68,8 @@ export class RestaurantService {
             id: '1',
             url: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400',
             type: 'cover',
-            isPrimary: true
-          }
+            isPrimary: true,
+          },
         ],
         documents: [
           {
@@ -78,7 +78,7 @@ export class RestaurantService {
             name: 'Business License',
             url: '/documents/business_license_1.pdf',
             uploadedAt: new Date('2024-01-15'),
-            verificationStatus: 'approved'
+            verificationStatus: 'approved',
           },
           {
             id: '2',
@@ -86,8 +86,8 @@ export class RestaurantService {
             name: 'Food Safety Certificate',
             url: '/documents/food_safety_1.pdf',
             uploadedAt: new Date('2024-01-15'),
-            verificationStatus: 'approved'
-          }
+            verificationStatus: 'approved',
+          },
         ],
         createdAt: new Date('2024-01-15'),
         updatedAt: new Date('2024-03-20'),
@@ -99,8 +99,8 @@ export class RestaurantService {
           averageOrderValue: 36.35,
           activeMenuItems: 24,
           completionRate: 96.5,
-          averagePreparationTime: 18
-        }
+          averagePreparationTime: 18,
+        },
       },
       {
         id: '2',
@@ -118,7 +118,7 @@ export class RestaurantService {
           country: 'USA',
           latitude: 37.7749,
           longitude: -122.4194,
-          deliveryRadius: 7
+          deliveryRadius: 7,
         },
         cuisine: ['chinese'],
         status: 'active',
@@ -133,7 +133,7 @@ export class RestaurantService {
           thursday: { isOpen: true, openTime: '11:30', closeTime: '21:30' },
           friday: { isOpen: true, openTime: '11:30', closeTime: '22:00' },
           saturday: { isOpen: true, openTime: '11:30', closeTime: '22:00' },
-          sunday: { isOpen: true, openTime: '12:00', closeTime: '21:00' }
+          sunday: { isOpen: true, openTime: '12:00', closeTime: '21:00' },
         },
         features: ['delivery', 'pickup', 'accepts_cards', 'parking'],
         images: [
@@ -141,8 +141,8 @@ export class RestaurantService {
             id: '2',
             url: 'https://images.unsplash.com/photo-1526318896980-cf78c088247c?w=400',
             type: 'cover',
-            isPrimary: true
-          }
+            isPrimary: true,
+          },
         ],
         documents: [
           {
@@ -151,7 +151,7 @@ export class RestaurantService {
             name: 'Business License',
             url: '/documents/business_license_2.pdf',
             uploadedAt: new Date('2024-02-01'),
-            verificationStatus: 'pending'
+            verificationStatus: 'pending',
           },
           {
             id: '4',
@@ -159,8 +159,8 @@ export class RestaurantService {
             name: 'Food Safety Certificate',
             url: '/documents/food_safety_2.pdf',
             uploadedAt: new Date('2024-02-01'),
-            verificationStatus: 'approved'
-          }
+            verificationStatus: 'approved',
+          },
         ],
         createdAt: new Date('2024-02-01'),
         updatedAt: new Date('2024-03-18'),
@@ -168,11 +168,11 @@ export class RestaurantService {
         metrics: {
           totalOrders: 892,
           totalRevenue: 28450,
-          averageOrderValue: 31.90,
+          averageOrderValue: 31.9,
           activeMenuItems: 32,
           completionRate: 94.2,
-          averagePreparationTime: 22
-        }
+          averagePreparationTime: 22,
+        },
       },
       {
         id: '3',
@@ -190,7 +190,7 @@ export class RestaurantService {
           country: 'USA',
           latitude: 30.2672,
           longitude: -97.7431,
-          deliveryRadius: 10
+          deliveryRadius: 10,
         },
         cuisine: ['american', 'burger'],
         status: 'temporarily_closed',
@@ -205,7 +205,7 @@ export class RestaurantService {
           thursday: { isOpen: true, openTime: '11:00', closeTime: '22:00' },
           friday: { isOpen: true, openTime: '11:00', closeTime: '23:00' },
           saturday: { isOpen: true, openTime: '10:00', closeTime: '23:00' },
-          sunday: { isOpen: true, openTime: '10:00', closeTime: '21:00' }
+          sunday: { isOpen: true, openTime: '10:00', closeTime: '21:00' },
         },
         features: ['delivery', 'pickup', 'outdoor_seating', 'parking', 'wifi'],
         images: [
@@ -213,8 +213,8 @@ export class RestaurantService {
             id: '3',
             url: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400',
             type: 'cover',
-            isPrimary: true
-          }
+            isPrimary: true,
+          },
         ],
         documents: [
           {
@@ -223,8 +223,8 @@ export class RestaurantService {
             name: 'Business License',
             url: '/documents/business_license_3.pdf',
             uploadedAt: new Date('2024-01-10'),
-            verificationStatus: 'approved'
-          }
+            verificationStatus: 'approved',
+          },
         ],
         createdAt: new Date('2024-01-10'),
         updatedAt: new Date('2024-03-15'),
@@ -233,11 +233,11 @@ export class RestaurantService {
         metrics: {
           totalOrders: 567,
           totalRevenue: 18920,
-          averageOrderValue: 33.40,
+          averageOrderValue: 33.4,
           activeMenuItems: 18,
           completionRate: 92.8,
-          averagePreparationTime: 15
-        }
+          averagePreparationTime: 15,
+        },
       },
       {
         id: '4',
@@ -255,7 +255,7 @@ export class RestaurantService {
           country: 'USA',
           latitude: 34.0522,
           longitude: -118.2437,
-          deliveryRadius: 8
+          deliveryRadius: 8,
         },
         cuisine: ['japanese', 'sushi'],
         status: 'active',
@@ -270,7 +270,7 @@ export class RestaurantService {
           thursday: { isOpen: true, openTime: '17:00', closeTime: '22:00' },
           friday: { isOpen: true, openTime: '17:00', closeTime: '23:00' },
           saturday: { isOpen: true, openTime: '17:00', closeTime: '23:00' },
-          sunday: { isOpen: true, openTime: '17:00', closeTime: '21:00' }
+          sunday: { isOpen: true, openTime: '17:00', closeTime: '21:00' },
         },
         features: ['delivery', 'pickup', 'dine_in', 'alcohol_served', 'accepts_cards'],
         images: [
@@ -278,8 +278,8 @@ export class RestaurantService {
             id: '4',
             url: 'https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=400',
             type: 'cover',
-            isPrimary: true
-          }
+            isPrimary: true,
+          },
         ],
         documents: [
           {
@@ -289,8 +289,8 @@ export class RestaurantService {
             url: '/documents/business_license_4.pdf',
             uploadedAt: new Date('2024-02-20'),
             verificationStatus: 'rejected',
-            rejectionReason: 'Document is expired. Please upload a current business license.'
-          }
+            rejectionReason: 'Document is expired. Please upload a current business license.',
+          },
         ],
         createdAt: new Date('2024-02-20'),
         updatedAt: new Date('2024-03-22'),
@@ -301,8 +301,8 @@ export class RestaurantService {
           averageOrderValue: 64.95,
           activeMenuItems: 45,
           completionRate: 98.1,
-          averagePreparationTime: 25
-        }
+          averagePreparationTime: 25,
+        },
       },
       {
         id: '5',
@@ -320,7 +320,7 @@ export class RestaurantService {
           country: 'USA',
           latitude: 45.5152,
           longitude: -122.6784,
-          deliveryRadius: 6
+          deliveryRadius: 6,
         },
         cuisine: ['vegetarian', 'vegan'],
         status: 'active',
@@ -335,16 +335,23 @@ export class RestaurantService {
           thursday: { isOpen: true, openTime: '08:00', closeTime: '20:00' },
           friday: { isOpen: true, openTime: '08:00', closeTime: '20:00' },
           saturday: { isOpen: true, openTime: '09:00', closeTime: '20:00' },
-          sunday: { isOpen: true, openTime: '09:00', closeTime: '19:00' }
+          sunday: { isOpen: true, openTime: '09:00', closeTime: '19:00' },
         },
-        features: ['delivery', 'pickup', 'dine_in', 'wifi', 'wheelchair_accessible', 'outdoor_seating'],
+        features: [
+          'delivery',
+          'pickup',
+          'dine_in',
+          'wifi',
+          'wheelchair_accessible',
+          'outdoor_seating',
+        ],
         images: [
           {
             id: '5',
             url: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400',
             type: 'cover',
-            isPrimary: true
-          }
+            isPrimary: true,
+          },
         ],
         documents: [
           {
@@ -353,7 +360,7 @@ export class RestaurantService {
             name: 'Business License',
             url: '/documents/business_license_5.pdf',
             uploadedAt: new Date('2024-03-01'),
-            verificationStatus: 'approved'
+            verificationStatus: 'approved',
           },
           {
             id: '8',
@@ -361,8 +368,8 @@ export class RestaurantService {
             name: 'Food Safety Certificate',
             url: '/documents/food_safety_5.pdf',
             uploadedAt: new Date('2024-03-01'),
-            verificationStatus: 'pending'
-          }
+            verificationStatus: 'pending',
+          },
         ],
         createdAt: new Date('2024-03-01'),
         updatedAt: new Date('2024-03-20'),
@@ -373,15 +380,19 @@ export class RestaurantService {
           averageOrderValue: 38.12,
           activeMenuItems: 28,
           completionRate: 95.7,
-          averagePreparationTime: 20
-        }
-      }
+          averagePreparationTime: 20,
+        },
+      },
     ];
 
     this.restaurants.set(mockRestaurants);
   }
 
-  getRestaurants(filters?: RestaurantFilters, page = 1, limit = 10): Promise<RestaurantListResponse> {
+  getRestaurants(
+    filters?: RestaurantFilters,
+    page = 1,
+    limit = 10,
+  ): Promise<RestaurantListResponse> {
     this.loading.set(true);
 
     return new Promise((resolve) => {
@@ -389,40 +400,52 @@ export class RestaurantService {
         let filteredRestaurants = [...this.restaurants()];
 
         if (filters?.status) {
-          filteredRestaurants = filteredRestaurants.filter(restaurant => restaurant.status === filters.status);
+          filteredRestaurants = filteredRestaurants.filter(
+            (restaurant) => restaurant.status === filters.status,
+          );
         }
 
         if (filters?.verificationStatus) {
-          filteredRestaurants = filteredRestaurants.filter(restaurant => restaurant.verificationStatus === filters.verificationStatus);
+          filteredRestaurants = filteredRestaurants.filter(
+            (restaurant) => restaurant.verificationStatus === filters.verificationStatus,
+          );
         }
 
         if (filters?.cuisine) {
-          filteredRestaurants = filteredRestaurants.filter(restaurant => restaurant.cuisine.includes(filters.cuisine!));
+          filteredRestaurants = filteredRestaurants.filter((restaurant) =>
+            restaurant.cuisine.includes(filters.cuisine!),
+          );
         }
 
         if (filters?.priceRange) {
-          filteredRestaurants = filteredRestaurants.filter(restaurant => restaurant.priceRange === filters.priceRange);
+          filteredRestaurants = filteredRestaurants.filter(
+            (restaurant) => restaurant.priceRange === filters.priceRange,
+          );
         }
 
         if (filters?.city) {
-          filteredRestaurants = filteredRestaurants.filter(restaurant =>
-            restaurant.address.city.toLowerCase().includes(filters.city!.toLowerCase())
+          filteredRestaurants = filteredRestaurants.filter((restaurant) =>
+            restaurant.address.city.toLowerCase().includes(filters.city!.toLowerCase()),
           );
         }
 
         if (filters?.search) {
           const searchTerm = filters.search.toLowerCase();
-          filteredRestaurants = filteredRestaurants.filter(restaurant =>
-            restaurant.name.toLowerCase().includes(searchTerm) ||
-            restaurant.description.toLowerCase().includes(searchTerm) ||
-            restaurant.ownerName.toLowerCase().includes(searchTerm) ||
-            restaurant.email.toLowerCase().includes(searchTerm)
+          filteredRestaurants = filteredRestaurants.filter(
+            (restaurant) =>
+              restaurant.name.toLowerCase().includes(searchTerm) ||
+              restaurant.description.toLowerCase().includes(searchTerm) ||
+              restaurant.ownerName.toLowerCase().includes(searchTerm) ||
+              restaurant.email.toLowerCase().includes(searchTerm),
           );
         }
 
         if (filters?.hasUnverifiedDocuments) {
-          filteredRestaurants = filteredRestaurants.filter(restaurant =>
-            restaurant.documents.some(doc => doc.verificationStatus === 'pending' || doc.verificationStatus === 'rejected')
+          filteredRestaurants = filteredRestaurants.filter((restaurant) =>
+            restaurant.documents.some(
+              (doc) =>
+                doc.verificationStatus === 'pending' || doc.verificationStatus === 'rejected',
+            ),
           );
         }
 
@@ -435,7 +458,7 @@ export class RestaurantService {
           restaurants: paginatedRestaurants,
           total: filteredRestaurants.length,
           page,
-          limit
+          limit,
         });
       }, 500);
     });
@@ -446,7 +469,7 @@ export class RestaurantService {
 
     return new Promise((resolve) => {
       setTimeout(() => {
-        const restaurant = this.restaurants().find(r => r.id === id);
+        const restaurant = this.restaurants().find((r) => r.id === id);
         this.loading.set(false);
         resolve(restaurant);
       }, 300);
@@ -476,11 +499,11 @@ export class RestaurantService {
             averageOrderValue: 0,
             activeMenuItems: 0,
             completionRate: 0,
-            averagePreparationTime: 0
-          }
+            averagePreparationTime: 0,
+          },
         };
 
-        this.restaurants.update(restaurants => [...restaurants, newRestaurant]);
+        this.restaurants.update((restaurants) => [...restaurants, newRestaurant]);
         this.loading.set(false);
         resolve(newRestaurant);
       }, 500);
@@ -493,7 +516,7 @@ export class RestaurantService {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const restaurants = this.restaurants();
-        const restaurantIndex = restaurants.findIndex(r => r.id === id);
+        const restaurantIndex = restaurants.findIndex((r) => r.id === id);
 
         if (restaurantIndex === -1) {
           this.loading.set(false);
@@ -504,10 +527,10 @@ export class RestaurantService {
         const updatedRestaurant: Restaurant = {
           ...restaurants[restaurantIndex],
           ...restaurantData,
-          updatedAt: new Date()
+          updatedAt: new Date(),
         };
 
-        this.restaurants.update(restaurants => {
+        this.restaurants.update((restaurants) => {
           const newRestaurants = [...restaurants];
           newRestaurants[restaurantIndex] = updatedRestaurant;
           return newRestaurants;
@@ -525,7 +548,7 @@ export class RestaurantService {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const restaurants = this.restaurants();
-        const restaurantExists = restaurants.some(r => r.id === id);
+        const restaurantExists = restaurants.some((r) => r.id === id);
 
         if (!restaurantExists) {
           this.loading.set(false);
@@ -533,7 +556,7 @@ export class RestaurantService {
           return;
         }
 
-        this.restaurants.update(restaurants => restaurants.filter(r => r.id !== id));
+        this.restaurants.update((restaurants) => restaurants.filter((r) => r.id !== id));
         this.loading.set(false);
         resolve();
       }, 500);
@@ -550,7 +573,7 @@ export class RestaurantService {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const restaurants = this.restaurants();
-        const restaurantIndex = restaurants.findIndex(r => r.id === action.restaurantId);
+        const restaurantIndex = restaurants.findIndex((r) => r.id === action.restaurantId);
 
         if (restaurantIndex === -1) {
           this.loading.set(false);
@@ -562,10 +585,10 @@ export class RestaurantService {
           ...restaurants[restaurantIndex],
           verificationStatus: action.status,
           updatedAt: new Date(),
-          verifiedAt: action.status === 'verified' ? new Date() : undefined
+          verifiedAt: action.status === 'verified' ? new Date() : undefined,
         };
 
-        this.restaurants.update(restaurants => {
+        this.restaurants.update((restaurants) => {
           const newRestaurants = [...restaurants];
           newRestaurants[restaurantIndex] = updatedRestaurant;
           return newRestaurants;
@@ -585,21 +608,23 @@ export class RestaurantService {
         const restaurants = this.restaurants();
         let documentFound = false;
 
-        this.restaurants.update(restaurants => {
-          return restaurants.map(restaurant => {
-            const documentIndex = restaurant.documents.findIndex(doc => doc.id === action.documentId);
+        this.restaurants.update((restaurants) => {
+          return restaurants.map((restaurant) => {
+            const documentIndex = restaurant.documents.findIndex(
+              (doc) => doc.id === action.documentId,
+            );
             if (documentIndex !== -1) {
               documentFound = true;
               const updatedDocuments = [...restaurant.documents];
               updatedDocuments[documentIndex] = {
                 ...updatedDocuments[documentIndex],
                 verificationStatus: action.status,
-                rejectionReason: action.rejectionReason
+                rejectionReason: action.rejectionReason,
               };
               return {
                 ...restaurant,
                 documents: updatedDocuments,
-                updatedAt: new Date()
+                updatedAt: new Date(),
               };
             }
             return restaurant;
@@ -638,7 +663,7 @@ export class RestaurantService {
       vegan: 'Vegan',
       desserts: 'Desserts',
       coffee: 'Coffee',
-      other: 'Other'
+      other: 'Other',
     };
     return cuisineMap[cuisine];
   }
@@ -656,7 +681,7 @@ export class RestaurantService {
       alcohol_served: 'Alcohol Served',
       halal: 'Halal',
       kosher: 'Kosher',
-      wheelchair_accessible: 'Wheelchair Accessible'
+      wheelchair_accessible: 'Wheelchair Accessible',
     };
     return featureMap[feature as RestaurantFeature] ?? feature;
   }
@@ -668,7 +693,7 @@ export class RestaurantService {
       tax_certificate: 'Tax Certificate',
       insurance_certificate: 'Insurance Certificate',
       identity_proof: 'Identity Proof',
-      other: 'Other'
+      other: 'Other',
     };
     return typeMap[type as DocumentType] ?? type;
   }
@@ -678,7 +703,7 @@ export class RestaurantService {
       pending: 'Pending',
       approved: 'Approved',
       rejected: 'Rejected',
-      expired: 'Expired'
+      expired: 'Expired',
     };
     return statusMap[status as DocumentVerificationStatus] ?? status;
   }
@@ -688,7 +713,7 @@ export class RestaurantService {
       pending: 'warn',
       approved: 'primary',
       rejected: '',
-      expired: 'accent'
+      expired: 'accent',
     };
     return colorMap[status as DocumentVerificationStatus] ?? '';
   }
@@ -698,7 +723,7 @@ export class RestaurantService {
       active: 'Active',
       inactive: 'Inactive',
       suspended: 'Suspended',
-      temporarily_closed: 'Temporarily Closed'
+      temporarily_closed: 'Temporarily Closed',
     };
     return statusMap[status];
   }
@@ -709,7 +734,7 @@ export class RestaurantService {
       under_review: 'Under Review',
       verified: 'Verified',
       rejected: 'Rejected',
-      additional_info_required: 'Additional Info Required'
+      additional_info_required: 'Additional Info Required',
     };
     return statusMap[status];
   }
@@ -719,7 +744,7 @@ export class RestaurantService {
       active: 'primary',
       inactive: 'warn',
       suspended: 'accent',
-      temporarily_closed: 'warn'
+      temporarily_closed: 'warn',
     };
     return colorMap[status];
   }
@@ -730,16 +755,17 @@ export class RestaurantService {
       under_review: 'accent',
       verified: 'primary',
       rejected: '',
-      additional_info_required: 'warn'
+      additional_info_required: 'warn',
     };
     return colorMap[status];
   }
 
   getPendingVerificationCount(): number {
-    return this.restaurants().filter(r =>
-      r.verificationStatus === 'pending' ||
-      r.verificationStatus === 'under_review' ||
-      r.documents.some(doc => doc.verificationStatus === 'pending')
+    return this.restaurants().filter(
+      (r) =>
+        r.verificationStatus === 'pending' ||
+        r.verificationStatus === 'under_review' ||
+        r.documents.some((doc) => doc.verificationStatus === 'pending'),
     ).length;
   }
 }

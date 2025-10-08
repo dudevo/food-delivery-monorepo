@@ -1,0 +1,5 @@
+# Protected Endpoint Template (Safe for Commit)
+# Usage: Replace $ACCESS_TOKEN with actual token before use
+
+http GET http://localhost:5001/api/profile \
+Authorization: Bearer $ACCESS_TOKEN

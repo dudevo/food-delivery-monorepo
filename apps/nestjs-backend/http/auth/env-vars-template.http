@@ -1,0 +1,10 @@
+# Environment Variable Usage Template (Safe for Commit)
+# Usage: Set environment variables before running commands
+
+http POST $API_BASE_URL/api/auth/login \
+Content-Type: application/json
+
+{
+  "email": "$USER_EMAIL",
+  "password": "$USER_PASSWORD"
+}

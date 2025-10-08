@@ -1,0 +1,11 @@
+# Register Affiliate
+http POST http://localhost:5001/api/auth/register/affiliate \
+Content-Type: application/json
+
+{
+  "email": "affiliate.test@example.com",
+  "password": "Affiliate@123",
+  "firstName": "David",
+  "lastName": "Brown",
+  "phone": "+1234567893"
+}

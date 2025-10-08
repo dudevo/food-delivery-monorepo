@@ -1,0 +1,13 @@
+# Register Courier
+http POST http://localhost:5001/api/auth/register/courier \
+Content-Type: application/json
+
+{
+  "email": "courier.test@example.com",
+  "password": "Courier@123",
+  "firstName": "Mike",
+  "lastName": "Wilson",
+  "phone": "+1234567891",
+  "vehicleType": "motorcycle",
+  "vehicleNumber": "COURIER-001"
+}

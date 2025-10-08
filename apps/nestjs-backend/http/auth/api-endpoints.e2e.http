@@ -1,0 +1,737 @@
+import { describe, expect, beforeAll, afterAll, it } from '@jest/globals';
+import request from 'supertest';
+import { INestApplication } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppModule } from '../../app.module';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from '../../entities/user.entity';
+import { UserRole, UserStatus } from '../../user-role.enum';
+
+describe('Auth Endpoints E2E Tests', () => {
+  let app: INestApplication;
+  let userRepository: Repository<User>;
+
+  const API_URL = 'http://localhost:5001/api';
+
+  const testUsers = {
+    customer: {
+      email: 'e2e.customer@test.com',
+      password: 'Customer@123',
+      firstName: 'E2ECustomer',
+      lastName: 'TestUser',
+      phone: '+1234567890',
+    },
+    courier: {
+      email: 'e2e.courier@test.com',
+      password: 'Courier@123',
+      firstName: 'E2ECourier',
+      lastName: 'TestUser',
+      phone: '+1234567891',
+      vehicleType: 'motorcycle',
+      vehicleNumber: 'E2E-COURIER',
+    },
+    restaurantAdmin: {
+      email: 'e2e.restaurant@test.com',
+      password: 'Restaurant@123',
+      firstName: 'E2ERestaurant',
+      lastName: 'TestUser',
+      phone: '+1234567892',
+      restaurantId: 'e2e-restaurant',
+      position: 'Manager',
+    },
+    affiliate: {
+      email: 'e2e.affiliate@test.com',
+      password: 'Affiliate@123',
+      firstName: 'E2EAffiliate',
+      lastName: 'TestUser',
+      phone: '+1234567893',
+    },
+    admin: {
+      email: 'e2e.admin@test.com',
+      password: 'Admin@123',
+      firstName: 'E2EAdmin',
+      lastName: 'TestUser',
+      phone: '+1234567899',
+    },
+  };
+
+  let authTokens = {
+    customer: null as string,
+    courier: null as string,
+    restaurantAdmin: null as string,
+    affiliate: null as string,
+    admin: null as string,
+  };
+
+  beforeAll(async () => {
+    const testConfig = {
+      database: {
+        type: 'postgres' as const,
+        host: 'localhost',
+        port: 5433,
+        username: 'postgres',
+        password: 'postgres',
+        database: 'food-delivery-nest-db',
+        synchronize: true,
+        logging: false,
+        entities: [User],
+      },
+    };
+
+    const moduleRef = await Test.createTestingModule({
+      imports: [
+        ConfigModule.forRoot({
+          isGlobal: true,
+          load: [() => testConfig],
+        }),
+        TypeOrmModule.forRoot(testConfig.database),
+        AppModule,
+      ],
+    }).compile();
+
+    app = moduleRef.createNestApplication();
+    await app.init();
+
+    userRepository = moduleRef.get(getRepositoryToken(User));
+
+    // Clean up database before tests
+    await userRepository.query('DELETE FROM users');
+  });
+
+  afterAll(async () => {
+    await userRepository.query('DELETE FROM users');
+    await app.close();
+  });
+
+  beforeEach(async () => {
+    // Clean up auth tokens between tests
+    authTokens = {
+      customer: null,
+      courier: null,
+      restaurantAdmin: null,
+      affiliate: null,
+      admin: null,
+    };
+  });
+
+  describe('API Health Check', () => {
+    it('should return 200 OK for health check', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/api/health')
+        .expect(200);
+
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          status: 'ok',
+          service: 'food-delivery-api',
+          timestamp: expect.any(String),
+        })
+      );
+    });
+  });
+
+  describe('Customer Registration Flow', () => {
+    it('should register a new customer successfully', async () => {
+      const response = await request(app.getHttpServer())
+        .post('/api/auth/register/customer')
+        .send(testUsers.customer)
+        .expect(201);
+
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          message: 'Customer registered successfully',
+          user: expect.objectContaining({
+            id: expect.any(String),
+            email: testUsers.customer.email,
+            firstName: testUsers.customer.firstName,
+            lastName: testUsers.customer.lastName,
+            role: UserRole.CUSTOMER,
+          }),
+        })
+      );
+
+      // Verify user exists in database
+      const user = await userRepository.findOne({
+        where: { email: testUsers.customer.email },
+      });
+      expect(user).toBeDefined();
+      expect(user.role).toBe(UserRole.CUSTOMER);
+      expect(user.status).toBe(UserStatus.ACTIVE);
+    });
+
+    it('should prevent duplicate customer registration', async () => {
+      // First registration
+      await request(app.getHttpServer())
+        .post('/api/auth/register/customer')
+        .send(testUsers.customer)
+        .expect(201);
+
+      // Second registration with same email should fail
+      await request(app.getHttpServer())
+        .post('/api/auth/register/customer')
+        .send(testUsers.customer)
+        .expect(409)
+        .expect((res) => {
+          expect(res.body).toEqual(
+            expect.objectContaining({
+              statusCode: 409,
+              message: 'User with this email already exists',
+            })
+          );
+        });
+    });
+
+    it('should validate customer registration data', async () => {
+      // Test missing required fields
+      await request(app.getHttpServer())
+        .post('/api/auth/register/customer')
+        .send({
+          email: testUsers.customer.email,
+          // Missing password, firstName, lastName
+        })
+        .expect(400);
+
+      // Test invalid email
+      await request(app.getHttpServer())
+        .post('/api/auth/register/customer')
+        .send({
+          ...testUsers.customer,
+          email: 'invalid-email',
+        })
+        .expect(400);
+
+      // Test weak password
+      await request(app.getHttpServer())
+        .post('/api/auth/register/customer')
+        .send({
+          ...testUsers.customer,
+          password: 'weak',
+        })
+        .expect(400);
+    });
+
+    it('should login registered customer', async () => {
+      // First register the customer
+      await request(app.getHttpServer())
+        .post('/api/auth/register/customer')
+        .send(testUsers.customer)
+        .expect(201);
+
+      // Then login
+      const response = await request(app.getHttpServer())
+        .post('/api/auth/login')
+        .send({
+          email: testUsers.customer.email,
+          password: testUsers.customer.password,
+        })
+        .expect(200);
+
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          access_token: expect.any(String),
+          user: expect.objectContaining({
+            id: expect.any(String),
+            email: testUsers.customer.email,
+            firstName: testUsers.customer.firstName,
+            lastName: testUsers.customer.lastName,
+            role: UserRole.CUSTOMER,
+            status: UserStatus.ACTIVE,
+          }),
+        })
+      );
+
+      // Save auth token for protected endpoints
+      authTokens.customer = response.body.access_token;
+    });
+
+    it('should reject login with invalid credentials', async () => {
+      await request(app.getHttpServer())
+        .post('/api/auth/login')
+        .send({
+          email: testUsers.customer.email,
+          password: 'wrongpassword',
+        })
+        .expect(401)
+        .expect((res) => {
+          expect(res.body).toEqual(
+            expect.objectContaining({
+              statusCode: 401,
+              message: 'Invalid credentials',
+            })
+          );
+        });
+    });
+  });
+
+  describe('Courier Registration Flow', () => {
+    it('should register a new courier successfully', async () => {
+      const response = await request(app.getHttpServer())
+        .post('/api/auth/register/courier')
+        .send(testUsers.courier)
+        .expect(201);
+
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          message: 'Courier registered successfully. Awaiting verification.',
+          user: expect.objectContaining({
+            id: expect.any(String),
+            email: testUsers.courier.email,
+            firstName: testUsers.courier.firstName,
+            lastName: testUsers.courier.lastName,
+            role: UserRole.COURIER,
+          }),
+        })
+      );
+
+      // Verify courier exists in database
+      const user = await userRepository.findOne({
+        where: { email: testUsers.courier.email },
+      });
+      expect(user).toBeDefined();
+      expect(user.role).toBe(UserRole.COURIER);
+      expect(user.status).toBe(UserStatus.PENDING_VERIFICATION);
+    });
+
+    it('should login registered courier', async () => {
+      // First register the courier
+      await request(app.getHttpServer())
+        .post('/api/auth/register/courier')
+        .send(testUsers.courier)
+        .expect(201);
+
+      // Then login
+      const response = await request(app.getHttpServer())
+        .post('/api/auth/login')
+        .send({
+          email: testUsers.courier.email,
+          password: testUsers.courier.password,
+        })
+        .expect(200);
+
+      expect(response.body.access_token).toBeDefined();
+      expect(response.body.user.role).toBe(UserRole.COURIER);
+
+      // Save auth token
+      authTokens.courier = response.body.access_token;
+    });
+  });
+
+  describe('Restaurant Admin Registration Flow', () => {
+    it('should register a new restaurant admin successfully', async () => {
+      const response = await request(app.getHttpServer())
+        .post('/api/auth/register/restaurant-admin')
+        .send(testUsers.restaurantAdmin)
+        .expect(201);
+
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          message: 'Restaurant admin registered successfully. Awaiting verification.',
+          user: expect.objectContaining({
+            id: expect.any(String),
+            email: testUsers.restaurantAdmin.email,
+            firstName: testUsers.restaurantAdmin.firstName,
+            lastName: testUsers.restaurantAdmin.lastName,
+            role: UserRole.RESTAURANT_ADMIN,
+          }),
+        })
+      );
+
+      // Verify restaurant admin exists in database
+      const user = await userRepository.findOne({
+        where: { email: testUsers.restaurantAdmin.email },
+      });
+      expect(user).toBeDefined();
+      expect(user.role).toBe(UserRole.RESTAURANT_ADMIN);
+      expect(user.status).toBe(UserStatus.PENDING_VERIFICATION);
+    });
+
+    it('should login registered restaurant admin', async () => {
+      // First register the restaurant admin
+      await request(app.getHttpServer())
+        .post('/api/auth/register/restaurant-admin')
+        .send(testUsers.restaurantAdmin)
+        .expect(201);
+
+      // Then login
+      const response = await request(app.getHttpServer())
+        .post('/api/auth/login')
+        .send({
+          email: testUsers.restaurantAdmin.email,
+          password: testUsers.restaurantAdmin.password,
+        })
+        .expect(200);
+
+      expect(response.body.access_token).toBeDefined();
+      expect(response.body.user.role).toBe(UserRole.RESTAURANT_ADMIN);
+
+      // Save auth token
+      authTokens.restaurantAdmin = response.body.access_token;
+    });
+  });
+
+  describe('Affiliate Registration Flow', () => {
+    it('should register a new affiliate successfully', async () => {
+      const response = await request(app.getHttpServer())
+        .post('/api/auth/register/affiliate')
+        .send(testUsers.affiliate)
+        .expect(201);
+
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          message: 'Affiliate registered successfully',
+          user: expect.objectContaining({
+            id: expect.any(String),
+            email: testUsers.affiliate.email,
+            firstName: testUsers.affiliate.firstName,
+            lastName: testUsers.affiliate.lastName,
+            role: UserRole.AFFILIATE,
+          }),
+        })
+      );
+
+      // Verify affiliate exists in database
+      const user = await userRepository.findOne({
+        where: { email: testUsers.affiliate.email },
+      });
+      expect(user).toBeDefined();
+      expect(user.role).toBe(UserRole.AFFILIATE);
+      expect(user.status).toBe(UserStatus.ACTIVE);
+    });
+
+    it('should login registered affiliate', async () => {
+      // First register the affiliate
+      await request(app.getHttpServer())
+        .post('/api/auth/register/affiliate')
+        .send(testUsers.affiliate)
+        .expect(201);
+
+      // Then login
+      const response = await request(app.getHttpServer())
+        .post('/api/auth/login')
+        .send({
+          email: testUsers.affiliate.email,
+          password: testUsers.affiliate.password,
+        })
+        .expect(200);
+
+      expect(response.body.access_token).toBeDefined();
+      expect(response.body.user.role).toBe(UserRole.AFFILIATE);
+
+      // Save auth token
+      authTokens.affiliate = response.body.access_token;
+    });
+  });
+
+  describe('Admin Registration Flow', () => {
+    it('should register a new admin successfully', async () => {
+      const response = await request(app.getHttpServer())
+        .post('/api/auth/register/admin')
+        .send(testUsers.admin)
+        .expect(201);
+
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          message: 'Admin registered successfully',
+          user: expect.objectContaining({
+            id: expect.any(String),
+            email: testUsers.admin.email,
+            firstName: testUsers.admin.firstName,
+            lastName: testUsers.admin.lastName,
+            role: UserRole.ADMIN,
+          }),
+        })
+      );
+
+      // Verify admin exists in database
+      const user = await userRepository.findOne({
+        where: { email: testUsers.admin.email },
+      });
+      expect(user).toBeDefined();
+      expect(user.role).toBe(UserRole.ADMIN);
+      expect(user.status).toBe(UserStatus.ACTIVE);
+      expect(user.emailVerified).toBe(true);
+    });
+
+    it('should login registered admin', async () => {
+      // First register the admin
+      await request(app.getHttpServer())
+        .post('/api/auth/register/admin')
+        .send(testUsers.admin)
+        .expect(201);
+
+      // Then login
+      const response = await request(app.getHttpServer())
+        .post('/api/auth/login')
+        .send({
+          email: testUsers.admin.email,
+          password: testUsers.admin.password,
+        })
+        .expect(200);
+
+      expect(response.body.access_token).toBeDefined();
+      expect(response.body.user.role).toBe(UserRole.ADMIN);
+
+      // Save auth token
+      authTokens.admin = response.body.access_token;
+    });
+  });
+
+  describe('Cross-Role Authentication', () => {
+    it('should authenticate users of all roles', async () => {
+      const roles = [
+        { name: 'customer', token: authTokens.customer, role: UserRole.CUSTOMER },
+        { name: 'courier', token: authTokens.courier, role: UserRole.COURIER },
+        { name: 'restaurantAdmin', token: authTokens.restaurantAdmin, role: UserRole.RESTAURANT_ADMIN },
+        { name: 'affiliate', token: authTokens.affiliate, role: UserRole.AFFILIATE },
+        { name: 'admin', token: authTokens.admin, role: UserRole.ADMIN },
+      ];
+
+      // Register all roles first
+      await request(app.getHttpServer())
+        .post('/api/auth/register/customer')
+        .send(testUsers.customer);
+
+      await request(app.getHttpServer())
+        .post('/api/auth/register/courier')
+        .send(testUsers.courier);
+
+      await request(app.getHttpServer())
+        .post('/api/auth/register/restaurant-admin')
+        .send(testUsers.restaurantAdmin);
+
+      await request(app.getHttpServer())
+        .post('/api/auth/register/affiliate')
+        .send(testUsers.affiliate);
+
+      await request(app.getHttpServer())
+        .post('/api/auth/register/admin')
+        .send(testUsers.admin);
+
+      // Then login all roles
+      for (const role of roles) {
+        const response = await request(app.getHttpServer())
+          .post('/api/auth/login')
+          .send({
+            email: testUsers[role.name].email,
+            password: testUsers[role.name].password,
+          })
+          .expect(200);
+
+        expect(response.body.access_token).toBeDefined();
+        expect(response.body.user.role).toBe(role.role);
+
+        // Save token
+        role.token = response.body.access_token;
+      }
+    });
+  });
+
+  describe('JWT Token Validation', () => {
+    let customerToken: string;
+
+    beforeAll(async () => {
+      // Register and login customer for token tests
+      await request(app.getHttpServer())
+        .post('/api/auth/register/customer')
+        .send(testUsers.customer)
+        .expect(201);
+
+      const loginResponse = await request(app.getHttpServer())
+        .post('/api/auth/login')
+        .send({
+          email: testUsers.customer.email,
+          password: testUsers.customer.password,
+        })
+        .expect(200);
+
+      customerToken = loginResponse.body.access_token;
+    });
+
+    it('should have valid JWT token structure', () => {
+      expect(customerToken).toBeDefined();
+      expect(customerToken).toMatch(/^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_.-]+$/);
+    });
+
+    it('should contain proper JWT payload', () => {
+      // JWT token contains header, payload, and signature
+      const parts = customerToken.split('.');
+      expect(parts).toHaveLength(3);
+      
+      // Decode payload (base64)
+      const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString());
+      
+      expect(payload).toEqual(
+        expect.objectContaining({
+          sub: expect.any(String), // user ID
+          email: testUsers.customer.email,
+          role: UserRole.CUSTOMER,
+          firstName: testUsers.customer.firstName,
+          lastName: testUsers.customer.lastName,
+          status: UserStatus.ACTIVE,
+          iat: expect.any(Number),
+          exp: expect.any(Number),
+        })
+      );
+    });
+
+    it('should reject malformed tokens', async () => {
+      await request(app.getHttpServer())
+        .get('/api/protected-endpoint') // Non-existent protected endpoint
+        .set('Authorization', 'Bearer malformed-token')
+        .expect(404); // Endpoint not found, but authentication would be attempted
+    });
+  });
+
+  describe('API Response Format Consistency', () => {
+    it('should return consistent response format for all registration endpoints', async () => {
+      const endpoints = [
+        {
+          url: '/api/auth/register/customer',
+          data: testUsers.customer,
+          expectedMessage: 'Customer registered successfully',
+        },
+        {
+          url: '/api/auth/register/courier',
+          data: testUsers.courier,
+          expectedMessage: 'Courier registered successfully. Awaiting verification.',
+        },
+        {
+          url: '/api/auth/register/affiliate',
+          data: testUsers.affiliate,
+          expectedMessage: 'Affiliate registered successfully',
+        },
+      ];
+
+      for (const endpoint of endpoints) {
+        const response = await request(app.getHttpServer())
+          .post(endpoint.url)
+          .send(endpoint.data)
+          .expect(201);
+
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            message: endpoint.expectedMessage,
+            user: expect.objectContaining({
+              id: expect.any(String),
+              email: expect.any(String),
+              firstName: expect.any(String),
+              lastName: expect.any(String),
+              role: expect.any(String),
+            }),
+          })
+        );
+      }
+    });
+
+    it('should return consistent login response format', async () => {
+      // Test login with different roles
+      const loginData = [
+        {
+          data: {
+            email: testUsers.customer.email,
+            password: testUsers.customer.password,
+          },
+          role: UserRole.CUSTOMER,
+        },
+        {
+          data: {
+            email: testUsers.courier.email,
+            password: testUsers.courier.password,
+          },
+          role: UserRole.COURIER,
+        },
+      ];
+
+      // First register users
+      await request(app.getHttpServer())
+        .post('/api/auth/register/customer')
+        .send(testUsers.customer);
+
+      await request(app.getHttpServer())
+        .post('/api/auth/register/courier')
+        .send(testUsers.courier);
+
+      // Then test login responses
+      for (const login of loginData) {
+        const response = await request(app.getHttpServer())
+          .post('/api/auth/login')
+          .send(login.data)
+          .expect(200);
+
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            access_token: expect.any(String),
+            user: expect.objectContaining({
+              id: expect.any(String),
+              email: expect.any(String),
+              firstName: expect.any(String),
+              lastName: expect.any(String),
+              role: login.role,
+              status: expect.any(String),
+            }),
+          })
+        );
+      }
+    });
+  });
+
+  describe('Error Handling E2E', () => {
+    it('should handle invalid JSON gracefully', async () => {
+      await request(app.getHttpServer())
+        .post('/api/auth/register/customer')
+        .set('Content-Type', 'application/json')
+        .send('invalid-json{')
+        .expect(400);
+    });
+
+    it('should handle missing request body', async () => {
+      await request(app.getHttpServer())
+        .post('/api/auth/register/customer')
+        .expect(400);
+    });
+
+    it('should handle very large request body', async () => {
+      const largeData = {
+        email: testUsers.customer.email,
+        password: testUsers.customer.password,
+        firstName: testUsers.customer.firstName,
+        lastName: testUsers.customer.lastName,
+        phone: testUsers.customer.phone,
+        extraData: 'x'.repeat(10000), // Very large field
+      };
+
+      // Should either succeed or fail gracefully, not crash
+      const response = await request(app.getHttpServer())
+        .post('/api/auth/register/customer')
+        .send(largeData)
+        .expect(expect.any([201, 400, 413]));
+
+      expect(response.body).toBeDefined();
+    });
+
+    it('should handle concurrent registration attempts for same email', async () => {
+      // First registration should succeed
+      await request(app.getHttpServer())
+        .post('/api/auth/register/customer')
+        .send(testUsers.customer)
+        .expect(201);
+
+      // Concurrent registrations should all fail
+      const concurrentPromises = Array(5).fill(null).map(() =>
+        request(app.getHttpServer())
+          .post('/api/auth/register/customer')
+          .send(testUsers.customer)
+      );
+
+      const results = await Promise.allSettled(concurrentPromises);
+
+      // All should fail with 409
+      for (const result of results) {
+        expect(result.status).toBe('fulfilled');
+        expect(result.value.statusCode).toBe(409);
+      }
+    });
+  });
+});

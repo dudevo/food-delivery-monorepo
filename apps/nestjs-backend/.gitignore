@@ -20,7 +20,7 @@ lerna-debug.log*
 /.nyc_output
 
 # IDEs and editors
-/.idea
+.idea
 .project
 .classpath
 .c9/
@@ -54,3 +54,40 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# HTTP Testing Security Rules
+# ✅ Safe to commit: Template files, public endpoints, placeholder data
+# 🚫 Never commit: Files with real tokens, credentials, or production secrets
+
+# HTTP files with sensitive data (NEVER COMMIT)
+**/*-real.http
+**/*-prod.http
+**/*-credentials.http
+**/http/**/*-secret-*
+**/http/**/*-token-*
+**/http/**/*-auth-*
+**/http/**/*-login-*
+**/http/**/*-real-*
+
+# HTTP files containing real authentication data
+**/http/**/*access_token*
+**/http/**/*jwt_token*
+**/http/**/*auth-*
+**/http/**/*-login-*
+**/http/**/*real-*
+
+# Environment-specific HTTP test files
+**/http/**/*-production*
+**/http/**/*-live*
+**/http/**/*-actual*
+
+# Files with hardcoded sensitive data in HTTP requests
+**/http/**/password": ".*
+**/http/**/*token": ".*
+**/http/**/*key": ".*
+**/http/**/*secret": ".*
+
+# Template files (safe to commit)
+!/http/**/*.template.http
+!/http/**/*-example.http
+!/http/**/*-test.http

@@ -1,0 +1,10 @@
+# Login Endpoint Template (Safe for Commit)
+# Usage: Replace placeholders with actual test data before use
+
+http POST http://localhost:5001/api/auth/login \
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "your-secure-password-here"
+}

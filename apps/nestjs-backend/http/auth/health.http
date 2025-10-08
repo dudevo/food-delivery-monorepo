@@ -1,0 +1,2 @@
+# Health Check
+http GET http://localhost:5001/api/health

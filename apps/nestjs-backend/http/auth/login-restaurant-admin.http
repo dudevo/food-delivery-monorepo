@@ -1,0 +1,8 @@
+# Login Restaurant Admin
+http POST http://localhost:5001/api/auth/login \
+Content-Type: application/json
+
+{
+  "email": "restaurant.test@example.com",
+  "password": "Restaurant@123"
+}

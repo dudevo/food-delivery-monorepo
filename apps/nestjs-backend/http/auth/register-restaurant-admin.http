@@ -1,0 +1,13 @@
+# Register Restaurant Admin
+http POST http://localhost:5001/api/auth/register/restaurant-admin \
+Content-Type: application/json
+
+{
+  "email": "restaurant.test@example.com",
+  "password": "Restaurant@123",
+  "firstName": "Sarah",
+  "lastName": "Johnson",
+  "phone": "+1234567892",
+  "restaurantId": "restaurant-001",
+  "position": "Manager"
+}
