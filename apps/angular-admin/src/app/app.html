@@ -2,115 +2,109 @@
 
 <!-- Angular Material Admin Layout with Sidenav -->  
 <mat-sidenav-container class="sidenav-container">
-  <!-- Side Navigation -->
-  <mat-sidenav 
-    #sidenav 
-    mode="side" 
-    [opened]="isSidenavOpen()" 
-    class="sidenav"
-  >
-    <mat-nav-list>
-      <div class="sidenav-header">
-        <mat-icon class="logo-icon">restaurant</mat-icon>
-        <span class="logo-text">Food Delivery</span>
-      </div>
-      
-      <mat-divider></mat-divider>
-      
-      <a 
-        mat-list-item 
-        (click)="selectMenuItem('dashboard')"
-        [class.active]="store.selectedMenuItem() === 'dashboard'"
-      >
-        <mat-icon matListItemIcon>dashboard</mat-icon>
-        <span matListItemTitle>Dashboard</span>
-      </a>
-      
-      <a 
-        mat-list-item 
-        (click)="selectMenuItem('orders')"
-        [class.active]="store.selectedMenuItem() === 'orders'"
-      >
-        <mat-icon matListItemIcon>shopping_cart</mat-icon>
-        <span matListItemTitle>Orders</span>
-        <span matListItemMeta>
-          <mat-icon [matBadge]="store.dashboardStats().totalOrders" matBadgeColor="accent">notifications</mat-icon>
-        </span>
-      </a>
-      
-      <a 
-        mat-list-item 
-        (click)="selectMenuItem('restaurants')"
-        [class.active]="store.selectedMenuItem() === 'restaurants'"
-      >
-        <mat-icon matListItemIcon>store</mat-icon>
-        <span matListItemTitle>Restaurants</span>
-      </a>
-      
-      <a 
-        mat-list-item 
-        (click)="selectMenuItem('users')"
-        [class.active]="store.selectedMenuItem() === 'users'"
-      >
-        <mat-icon matListItemIcon>people</mat-icon>
-        <span matListItemTitle>Users</span>
-      </a>
-      
-      <a 
-        mat-list-item 
-        (click)="selectMenuItem('couriers')"
-        [class.active]="store.selectedMenuItem() === 'couriers'"
-      >
-        <mat-icon matListItemIcon>delivery_dining</mat-icon>
-        <span matListItemTitle>Couriers</span>
-      </a>
-      
-      <a 
-        mat-list-item 
-        (click)="selectMenuItem('analytics')"
-        [class.active]="store.selectedMenuItem() === 'analytics'"
-      >
-        <mat-icon matListItemIcon>analytics</mat-icon>
-        <span matListItemTitle>Analytics</span>
-      </a>
-    </mat-nav-list>
-  </mat-sidenav>
+  <!-- Side Navigation - Only show when authenticated -->
+  @if (authService.isAuthenticatedSignal() && !isAuthRoute()) {
+    <mat-sidenav 
+      #sidenav 
+      mode="side" 
+      [opened]="isSidenavOpen()" 
+      class="sidenav"
+    >
+      <mat-nav-list>
+        <div class="sidenav-header">
+          <mat-icon class="logo-icon">restaurant</mat-icon>
+          <span class="logo-text">Food Delivery</span>
+        </div>
+        
+        <mat-divider></mat-divider>
+        
+        <a 
+          mat-list-item 
+          (click)="selectMenuItem('dashboard')"
+          [class.active]="store.selectedMenuItem() === 'dashboard'"
+        >
+          <mat-icon matListItemIcon>dashboard</mat-icon>
+          <span matListItemTitle>Dashboard</span>
+        </a>
+        
+        <a 
+          mat-list-item 
+          (click)="selectMenuItem('orders')"
+          [class.active]="store.selectedMenuItem() === 'orders'"
+        >
+          <mat-icon matListItemIcon>shopping_cart</mat-icon>
+          <span matListItemTitle>Orders</span>
+        </a>
+        
+        <a 
+          mat-list-item 
+          (click)="selectMenuItem('restaurants')"
+          [class.active]="store.selectedMenuItem() === 'restaurants'"
+        >
+          <mat-icon matListItemIcon>store</mat-icon>
+          <span matListItemTitle>Restaurants</span>
+        </a>
+        
+        <a 
+          mat-list-item 
+          (click)="selectMenuItem('users')"
+          [class.active]="store.selectedMenuItem() === 'users'"
+        >
+          <mat-icon matListItemIcon>people</mat-icon>
+          <span matListItemTitle>Users</span>
+        </a>
+        
+        <a 
+          mat-list-item 
+          (click)="selectMenuItem('couriers')"
+          [class.active]="store.selectedMenuItem() === 'couriers'"
+        >
+          <mat-icon matListItemIcon>delivery_dining</mat-icon>
+          <span matListItemTitle>Couriers</span>
+        </a>
+        
+        <a 
+          mat-list-item 
+          (click)="selectMenuItem('analytics')"
+          [class.active]="store.selectedMenuItem() === 'analytics'"
+        >
+          <mat-icon matListItemIcon>analytics</mat-icon>
+          <span matListItemTitle>Analytics</span>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+  }
   
   <!-- Main Content -->
   <mat-sidenav-content class="content">
-    <!-- Top Toolbar -->
-    <mat-toolbar color="primary" class="toolbar">
-      <button 
-        mat-icon-button 
-        (click)="toggleSidenav()" 
-        aria-label="Toggle sidenav"
-      >
-        <mat-icon>menu</mat-icon>
-      </button>
-      
-      <span class="app-name">{{ title() }}</span>
-      
-      <span class="spacer"></span>
-      
-      <!-- Loading Indicator -->
-      @if (store.isLoading()) {
-        <mat-spinner diameter="24"></mat-spinner>
-      }
-      
-      <!-- User Menu -->
-      @if (store.isUserLoggedIn()) {
+    <!-- Top Toolbar - Only show when authenticated and not on auth routes -->
+    @if (authService.isAuthenticatedSignal() && !isAuthRoute()) {
+      <mat-toolbar color="primary" class="toolbar">
+        <button 
+          mat-icon-button 
+          (click)="toggleSidenav()" 
+          aria-label="Toggle sidenav"
+        >
+          <mat-icon>menu</mat-icon>
+        </button>
+        
+        <span class="app-name">{{ title() }}</span>
+        
+        <span class="spacer"></span>
+        
+        <!-- User Menu -->
         <button mat-button [matMenuTriggerFor]="userMenu">
           <mat-icon>account_circle</mat-icon>
-          <span>{{ store.userDisplayName() }}</span>
+          <span>{{ authService.currentUser()?.email }}</span>
         </button>
         <mat-menu #userMenu="matMenu">
-          <button mat-menu-item>
+          <button mat-menu-item disabled>
             <mat-icon>person</mat-icon>
-            <span>Profile</span>
+            <span>{{ authService.currentUser()?.email }}</span>
           </button>
-          <button mat-menu-item>
-            <mat-icon>settings</mat-icon>
-            <span>Settings</span>
+          <button mat-menu-item disabled>
+            <mat-icon>admin_panel_settings</mat-icon>
+            <span>{{ authService.currentUser()?.role }}</span>
           </button>
           <mat-divider></mat-divider>
           <button mat-menu-item (click)="logout()">
@@ -118,15 +112,15 @@
             <span>Logout</span>
           </button>
         </mat-menu>
-      }
-    </mat-toolbar>
+      </mat-toolbar>
+    }
     
     <!-- Page Content -->
-    <div class="page-content">
-      @if (store.isLoading()) {
+    <div class="page-content" [class.auth-page]="isAuthRoute()">
+      @if (authService.isLoading() && !authService.isAuthenticatedSignal()) {
         <div class="loading-container">
           <mat-spinner diameter="50"></mat-spinner>
-          <p>Loading dashboard data...</p>
+          <p>Loading...</p>
         </div>
       } @else {
         <!-- Router Outlet for All Routes -->

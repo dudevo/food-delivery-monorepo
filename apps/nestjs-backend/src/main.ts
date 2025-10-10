@@ -9,8 +9,18 @@ async function bootstrap() {
   
   const configService = app.get(ConfigService);
   
+  const corsOriginRaw = configService.get('CORS_ORIGIN');
+  const corsOrigins = corsOriginRaw
+    ? corsOriginRaw
+        .split(',')
+        .map(origin => origin.trim())
+        .filter(origin => origin.length > 0)
+    : [];
+  
+  const finalOrigins = corsOrigins.length > 0 ? corsOrigins : ['http://localhost:3000', 'http://localhost:4200', 'http://localhost:4000'];
+  
   app.enableCors({
-    origin: configService.get('CORS_ORIGIN') || 'http://localhost:3000',
+    origin: finalOrigins,
     credentials: true,
   });
   

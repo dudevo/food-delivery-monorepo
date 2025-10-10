@@ -1,0 +1,27 @@
+# Debug Admin User Registration and Login
+
+### 1. Register Admin (if not exists)
+http POST http://localhost:5001/api/auth/register/admin \
+Content-Type: application/json
+
+{
+  "email": "admin.test@example.com",
+  "password": "Admin@123",
+  "firstName": "Super",
+  "lastName": "Admin",
+  "phone": "+1234567899"
+}
+
+### 2. Login with Admin
+http POST http://localhost:5001/api/auth/login \
+Content-Type: application/json
+
+{
+  "email": "admin.test@example.com",
+  "password": "Admin@123"
+}
+
+### 3. Test Users Endpoint with Token
+# Replace YOUR_JWT_TOKEN with the actual token from login response
+http GET http://localhost:5001/api/users?page=1&limit=10 \
+Authorization: "Bearer YOUR_JWT_TOKEN"

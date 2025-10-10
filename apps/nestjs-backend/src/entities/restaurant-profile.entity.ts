@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, ManyToOne, JoinColumn } from 'typeorm';
 import { User } from './user.entity';
 import { Restaurant } from './restaurant.entity';
 
@@ -7,10 +7,11 @@ export class RestaurantProfile {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ type: 'uuid', unique: true })
   userId: string;
 
   @OneToOne(() => User, user => user.restaurantAdminProfile)
+  @JoinColumn()
   user: User;
 
   @Column({ nullable: true })

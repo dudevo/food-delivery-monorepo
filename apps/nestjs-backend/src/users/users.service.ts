@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, ConflictException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { User } from '../entities/user.entity';
 import { CustomerProfile } from '../entities/customer-profile.entity';
@@ -81,11 +81,9 @@ export class UsersService {
 
     const savedUser = await this.userRepository.save(user);
 
-    // Create customer profile
-    const customerProfile = this.customerProfileRepository.create({
-      userId: savedUser.id,
-    });
-
+    // Create customer profile and set relationship
+    const customerProfile = this.customerProfileRepository.create();
+    customerProfile.userId = savedUser.id;
     await this.customerProfileRepository.save(customerProfile);
 
     const userWithProfile = await this.findById(savedUser.id);
@@ -117,14 +115,15 @@ export class UsersService {
 
     const savedUser = await this.userRepository.save(user);
 
-    const courierProfile = this.courierProfileRepository.create({
-      vehicleType: registerDto.vehicleType || undefined,
-      vehicleNumber: registerDto.vehicleNumber,
-      isOnline: false,
-    });
-    
-    // Set the userId separately since TypeORM might not recognize it in create
+    // Create courier profile and set relationship
+    const courierProfile = this.courierProfileRepository.create();
     courierProfile.userId = savedUser.id;
+    courierProfile.vehicleNumber = registerDto.vehicleNumber;
+    courierProfile.isOnline = false;
+    
+    if (registerDto.vehicleType) {
+      courierProfile.vehicleType = registerDto.vehicleType;
+    }
 
     await this.courierProfileRepository.save(courierProfile);
 
@@ -157,11 +156,11 @@ export class UsersService {
 
     const savedUser = await this.userRepository.save(user);
 
-    const restaurantProfile = this.restaurantProfileRepository.create({
-      userId: savedUser.id,
-      restaurantId: registerDto.restaurantId,
-      position: registerDto.position,
-    });
+    // Create restaurant profile and set relationship
+    const restaurantProfile = this.restaurantProfileRepository.create();
+    restaurantProfile.userId = savedUser.id;
+    restaurantProfile.restaurantId = registerDto.restaurantId;
+    restaurantProfile.position = registerDto.position;
 
     await this.restaurantProfileRepository.save(restaurantProfile);
 
@@ -196,11 +195,11 @@ export class UsersService {
 
     const affiliateCode = this.generateAffiliateCode(registerDto.firstName, registerDto.lastName);
 
-    const affiliateProfile = this.affiliateProfileRepository.create({
-      userId: savedUser.id,
-      affiliateCode,
-      commissionRate: 5.00, // Default 5% commission
-    });
+    // Create affiliate profile and set relationship
+    const affiliateProfile = this.affiliateProfileRepository.create();
+    affiliateProfile.userId = savedUser.id;
+    affiliateProfile.affiliateCode = affiliateCode;
+    affiliateProfile.commissionRate = 5.00; // Default 5% commission
 
     await this.affiliateProfileRepository.save(affiliateProfile);
 
@@ -268,6 +267,69 @@ export class UsersService {
 
     user.status = status;
     return this.userRepository.save(user);
+  }
+
+  async findAll(filters: {
+    page?: number;
+    limit?: number;
+    role?: UserRole;
+    status?: UserStatus;
+    search?: string;
+  }): Promise<{ data: User[]; total: number }> {
+    const { page = 1, limit = 10, role, status, search } = filters;
+    const skip = (page - 1) * limit;
+
+    const whereConditions: any = {};
+
+    if (role) {
+      whereConditions.role = role;
+    }
+
+    if (status) {
+      whereConditions.status = status;
+    }
+
+    if (search) {
+      whereConditions.email = Like(`%${search}%`);
+    }
+
+    const [data, total] = await this.userRepository.findAndCount({
+      where: whereConditions,
+      relations: [
+        'customerProfile',
+        'courierProfile',
+        'restaurantAdminProfile', 
+        'affiliateProfile'
+      ],
+      skip,
+      take: limit,
+      order: {
+        createdAt: 'DESC'
+      }
+    });
+
+    return { data, total };
+  }
+
+  async updateUser(id: string, updateData: {
+    firstName?: string;
+    lastName?: string;
+    phone?: string;
+    role?: UserRole;
+    status?: UserStatus;
+  }): Promise<User | null> {
+    const user = await this.findById(id);
+    if (!user) {
+      return null;
+    }
+
+    Object.assign(user, updateData);
+    return this.userRepository.save(user);
+  }
+
+  async deleteUser(id: string): Promise<boolean> {
+    const result = await this.userRepository.delete(id);
+    return (result.affected && result.affected > 0) || false;
   }
 
   private generateAffiliateCode(firstName: string, lastName: string): string {

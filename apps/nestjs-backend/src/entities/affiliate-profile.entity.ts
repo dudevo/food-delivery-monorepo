@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm';
 import { User } from './user.entity';
 
 @Entity('affiliate_profiles')
@@ -6,10 +6,11 @@ export class AffiliateProfile {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ type: 'uuid', unique: true })
   userId: string;
 
   @OneToOne(() => User, user => user.affiliateProfile)
+  @JoinColumn()
   user: User;
 
   @Column({ unique: true })

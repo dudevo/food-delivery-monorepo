@@ -2,6 +2,7 @@ import { Component, OnInit, signal, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -437,23 +438,23 @@ export class UserFormComponent implements OnInit {
 
   private async loadUser(userId: string) {
     try {
-      const user = await this.userService.getUserById(userId);
-      if (user) {
-        this.userForm.patchValue({
-          name: user.name,
-          email: user.email,
-          phone: user.phone || '',
-          role: user.role,
-          status: user.status,
-          address: user.address || {
-            street: '',
-            city: '',
-            state: '',
-            zipCode: '',
-            country: ''
-          }
-        });
-      }
+      const userObservable = this.userService.getUserById(userId);
+      const user = await firstValueFrom(userObservable);
+      
+      this.userForm.patchValue({
+        name: user.name,
+        email: user.email,
+        phone: user.phone || '',
+        role: user.role,
+        status: user.status,
+        address: user.address || {
+          street: '',
+          city: '',
+          state: '',
+          zipCode: '',
+          country: ''
+        }
+      });
     } catch (error) {
       this.snackBar.open('Failed to load user data', 'Close', { duration: 3000 });
     }

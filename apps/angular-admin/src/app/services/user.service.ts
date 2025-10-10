@@ -1,4 +1,9 @@
 import { Injectable, signal } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, tap, map } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
+
 import {
   User,
   CreateUserRequest,
@@ -9,284 +14,239 @@ import {
   UserStatus
 } from '../types/user.types';
 
+interface BackendUserResponse {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone?: string;
+  role: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  lastLoginAt?: string;
+  emailVerified: boolean;
+}
+
+interface BackendUsersListResponse {
+  users: BackendUserResponse[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  private readonly API_URL = environment.apiUrl;
   private users = signal<User[]>([]);
   private loading = signal(false);
 
-  constructor() {
-    this.initializeMockData();
+  constructor(private http: HttpClient) {}
+
+  // Convert backend user to frontend user format
+  private convertBackendUser(backendUser: BackendUserResponse): User {
+    return {
+      id: backendUser.id,
+      firstName: backendUser.firstName,
+      lastName: backendUser.lastName,
+      name: `${backendUser.firstName} ${backendUser.lastName}`,
+      email: backendUser.email,
+      phone: backendUser.phone,
+      role: backendUser.role as UserRole,
+      status: backendUser.status as UserStatus,
+      createdAt: new Date(backendUser.createdAt),
+      updatedAt: new Date(backendUser.updatedAt),
+      lastLoginAt: backendUser.lastLoginAt ? new Date(backendUser.lastLoginAt) : undefined
+    };
   }
 
-  private initializeMockData() {
-    const mockUsers: User[] = [
-      {
-        id: '1',
-        name: 'John Doe',
-        email: 'john.doe@example.com',
-        phone: '+1-555-0123',
-        role: 'customer',
-        status: 'active',
-        createdAt: new Date('2024-01-15'),
-        updatedAt: new Date('2024-03-20'),
-        lastLoginAt: new Date('2024-03-25'),
-        address: {
-          street: '123 Main St',
-          city: 'New York',
-          state: 'NY',
-          zipCode: '10001',
-          country: 'USA'
-        },
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=John'
-      },
-      {
-        id: '2',
-        name: 'Jane Smith',
-        email: 'jane.smith@restaurant.com',
-        phone: '+1-555-0124',
-        role: 'restaurant_owner',
-        status: 'active',
-        createdAt: new Date('2024-02-01'),
-        updatedAt: new Date('2024-03-18'),
-        lastLoginAt: new Date('2024-03-24'),
-        address: {
-          street: '456 Oak Ave',
-          city: 'Los Angeles',
-          state: 'CA',
-          zipCode: '90210',
-          country: 'USA'
-        },
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Jane'
-      },
-      {
-        id: '3',
-        name: 'Mike Johnson',
-        email: 'mike.j@courier.com',
-        phone: '+1-555-0125',
-        role: 'courier',
-        status: 'active',
-        createdAt: new Date('2024-01-20'),
-        updatedAt: new Date('2024-03-15'),
-        lastLoginAt: new Date('2024-03-26'),
-        address: {
-          street: '789 Pine St',
-          city: 'Chicago',
-          state: 'IL',
-          zipCode: '60601',
-          country: 'USA'
-        },
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Mike'
-      },
-      {
-        id: '4',
-        name: 'Sarah Wilson',
-        email: 'sarah.admin@fooddelivery.com',
-        phone: '+1-555-0126',
-        role: 'admin',
-        status: 'active',
-        createdAt: new Date('2023-12-01'),
-        updatedAt: new Date('2024-03-22'),
-        lastLoginAt: new Date('2024-03-26'),
-        address: {
-          street: '321 Admin Blvd',
-          city: 'Seattle',
-          state: 'WA',
-          zipCode: '98101',
-          country: 'USA'
-        },
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah'
-      },
-      {
-        id: '5',
-        name: 'David Brown',
-        email: 'david.brown@email.com',
-        phone: '+1-555-0127',
-        role: 'customer',
-        status: 'suspended',
-        createdAt: new Date('2024-02-10'),
-        updatedAt: new Date('2024-03-10'),
-        lastLoginAt: new Date('2024-03-05'),
-        address: {
-          street: '654 Elm St',
-          city: 'Miami',
-          state: 'FL',
-          zipCode: '33101',
-          country: 'USA'
-        },
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=David'
-      }
-    ];
-
-    this.users.set(mockUsers);
-  }
-
-  getUsers(filters?: UserFilters, page = 1, limit = 10): Promise<UserListResponse> {
+  getUsers(filters?: UserFilters): Observable<UserListResponse> {
     this.loading.set(true);
+    
+    let params = new HttpParams();
+    if (filters) {
+      if (filters.page) params = params.set('page', filters.page.toString());
+      if (filters.limit) params = params.set('limit', filters.limit.toString());
+      if (filters.role) params = params.set('role', filters.role);
+      if (filters.status) params = params.set('status', filters.status);
+      if (filters.search) params = params.set('search', filters.search);
+    }
 
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        let filteredUsers = [...this.users()];
-
-        if (filters?.role) {
-          filteredUsers = filteredUsers.filter(user => user.role === filters.role);
-        }
-
-        if (filters?.status) {
-          filteredUsers = filteredUsers.filter(user => user.status === filters.status);
-        }
-
-        if (filters?.search) {
-          const searchTerm = filters.search.toLowerCase();
-          filteredUsers = filteredUsers.filter(user =>
-            user.name.toLowerCase().includes(searchTerm) ||
-            user.email.toLowerCase().includes(searchTerm) ||
-            user.phone?.toLowerCase().includes(searchTerm)
-          );
-        }
-
-        const startIndex = (page - 1) * limit;
-        const endIndex = startIndex + limit;
-        const paginatedUsers = filteredUsers.slice(startIndex, endIndex);
-
+    return this.http.get<BackendUsersListResponse>(`${this.API_URL}/users`, { params }).pipe(
+      tap(response => {
+        const frontendUsers = response.users.map(user => this.convertBackendUser(user));
+        this.users.set(frontendUsers);
         this.loading.set(false);
-        resolve({
-          users: paginatedUsers,
-          total: filteredUsers.length,
-          page,
-          limit
-        });
-      }, 500);
-    });
+      }),
+      map(response => ({
+        users: response.users.map(user => this.convertBackendUser(user)),
+        total: response.total,
+        page: response.page,
+        limit: response.limit
+      })),
+      catchError(this.handleError)
+    );
   }
 
-  getUserById(id: string): Promise<User | undefined> {
-    this.loading.set(true);
-
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const user = this.users().find(u => u.id === id);
-        this.loading.set(false);
-        resolve(user);
-      }, 300);
-    });
-  }
-
-  createUser(userData: CreateUserRequest): Promise<User> {
-    this.loading.set(true);
-
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const newUser: User = {
-          id: Date.now().toString(),
-          name: userData.name,
-          email: userData.email,
-          phone: userData.phone,
-          role: userData.role,
-          status: 'active',
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          address: userData.address,
-          avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${userData.name}`
-        };
-
-        this.users.update(users => [...users, newUser]);
-        this.loading.set(false);
-        resolve(newUser);
-      }, 500);
-    });
-  }
-
-  updateUser(id: string, userData: UpdateUserRequest): Promise<User> {
-    this.loading.set(true);
-
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const users = this.users();
-        const userIndex = users.findIndex(u => u.id === id);
-
-        if (userIndex === -1) {
-          this.loading.set(false);
-          reject(new Error('User not found'));
-          return;
+  getUserById(id: string): Observable<User> {
+    return this.http.get<BackendUserResponse>(`${this.API_URL}/users/${id}`).pipe(
+      map(user => this.convertBackendUser(user)),
+      tap(user => {
+        // Update user in the list if exists
+        const currentUsers = this.users();
+        const index = currentUsers.findIndex(u => u.id === id);
+        if (index !== -1) {
+          const updatedUsers = [...currentUsers];
+          updatedUsers[index] = user;
+          this.users.set(updatedUsers);
         }
-
-        const updatedUser: User = {
-          ...users[userIndex],
-          ...userData,
-          updatedAt: new Date()
-        };
-
-        this.users.update(users => {
-          const newUsers = [...users];
-          newUsers[userIndex] = updatedUser;
-          return newUsers;
-        });
-
-        this.loading.set(false);
-        resolve(updatedUser);
-      }, 500);
-    });
+      }),
+      catchError(this.handleError)
+    );
   }
 
-  deleteUser(id: string): Promise<void> {
-    this.loading.set(true);
-
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const users = this.users();
-        const userExists = users.some(u => u.id === id);
-
-        if (!userExists) {
-          this.loading.set(false);
-          reject(new Error('User not found'));
-          return;
+  updateUser(id: string, updateData: UpdateUserRequest): Observable<User> {
+    return this.http.put<BackendUserResponse>(`${this.API_URL}/users/${id}`, updateData).pipe(
+      map(user => this.convertBackendUser(user)),
+      tap(updatedUser => {
+        // Update user in the list
+        const currentUsers = this.users();
+        const index = currentUsers.findIndex(u => u.id === id);
+        if (index !== -1) {
+          const updatedUsers = [...currentUsers];
+          updatedUsers[index] = updatedUser;
+          this.users.set(updatedUsers);
         }
-
-        this.users.update(users => users.filter(u => u.id !== id));
-        this.loading.set(false);
-        resolve();
-      }, 500);
-    });
+      }),
+      catchError(this.handleError)
+    );
   }
 
-  changeUserStatus(id: string, status: UserStatus): Promise<User> {
-    return this.updateUser(id, { status });
+  updateUserStatus(id: string, status: UserStatus): Observable<User> {
+    return this.http.put<BackendUserResponse>(`${this.API_URL}/users/${id}/status`, { status }).pipe(
+      map(user => this.convertBackendUser(user)),
+      tap(updatedUser => {
+        // Update user in the list
+        const currentUsers = this.users();
+        const index = currentUsers.findIndex(u => u.id === id);
+        if (index !== -1) {
+          const updatedUsers = [...currentUsers];
+          updatedUsers[index] = updatedUser;
+          this.users.set(updatedUsers);
+        }
+      }),
+      catchError(this.handleError)
+    );
   }
 
-  get isLoading() {
-    return this.loading.asReadonly();
+  // Alias for backward compatibility
+  changeUserStatus(id: string, status: UserStatus): Observable<User> {
+    return this.updateUserStatus(id, status);
   }
 
-  getRoleDisplayName(role: UserRole): string {
+  deleteUser(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.API_URL}/users/${id}`).pipe(
+      tap(() => {
+        // Remove user from the list
+        const currentUsers = this.users();
+        const updatedUsers = currentUsers.filter(u => u.id !== id);
+        this.users.set(updatedUsers);
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  createUser(userData: CreateUserRequest): Observable<User> {
+    // Note: This would use the auth register endpoints
+    // For now, return an error as this should go through auth endpoints
+    return throwError(() => new Error('Use auth/register endpoints to create users'));
+  }
+
+  // Getters for component access
+  getUsersList() {
+    return this.users.asReadonly();
+  }
+
+  isLoading() {
+    return this.loading();
+  }
+
+  // Helper methods
+  getRoleDisplayText(role: UserRole): string {
     const roleMap: Record<UserRole, string> = {
       customer: 'Customer',
       restaurant_owner: 'Restaurant Owner',
       courier: 'Courier',
       admin: 'Admin',
-      super_admin: 'Super Admin'
+      super_admin: 'Super Admin',
+      ADMIN: 'Admin',
+      RESTAURANT_ADMIN: 'Restaurant Admin',
+      CUSTOMER: 'Customer',
+      COURIER: 'Courier',
+      AFFILIATE: 'Affiliate'
     };
-    return roleMap[role];
+    return roleMap[role] || role;
   }
 
-  getStatusDisplayName(status: UserStatus): string {
+  // Alias for backward compatibility
+  getRoleDisplayName(role: UserRole): string {
+    return this.getRoleDisplayText(role);
+  }
+
+  getStatusDisplayText(status: UserStatus): string {
     const statusMap: Record<UserStatus, string> = {
       active: 'Active',
       inactive: 'Inactive',
       suspended: 'Suspended',
-      pending_verification: 'Pending Verification'
+      pending_verification: 'Pending Verification',
+      ACTIVE: 'Active',
+      INACTIVE: 'Inactive',
+      SUSPENDED: 'Suspended',
+      PENDING: 'Pending'
     };
-    return statusMap[status];
+    return statusMap[status] || status;
+  }
+
+  // Alias for backward compatibility
+  getStatusDisplayName(status: UserStatus): string {
+    return this.getStatusDisplayText(status);
   }
 
   getStatusColor(status: UserStatus): string {
     const colorMap: Record<UserStatus, string> = {
       active: 'primary',
-      inactive: 'warn',
-      suspended: 'accent',
-      pending_verification: 'warn'
+      inactive: 'medium',
+      suspended: 'warn',
+      pending_verification: 'accent',
+      ACTIVE: 'primary',
+      INACTIVE: 'medium',
+      SUSPENDED: 'warn',
+      PENDING: 'accent'
     };
-    return colorMap[status];
+    return colorMap[status] || 'primary';
   }
+
+  getRoleColor(role: UserRole): string {
+    const colorMap: Record<UserRole, string> = {
+      customer: 'primary',
+      restaurant_owner: 'accent',
+      courier: 'warn',
+      admin: 'primary',
+      super_admin: 'primary',
+      ADMIN: 'primary',
+      RESTAURANT_ADMIN: 'accent',
+      CUSTOMER: 'primary',
+      COURIER: 'warn',
+      AFFILIATE: 'accent'
+    };
+    return colorMap[role] || 'primary';
+  }
+
+  private handleError = (error: any) => {
+    this.loading.set(false);
+    console.error('UserService Error:', error);
+    return throwError(() => error);
+  };
 }

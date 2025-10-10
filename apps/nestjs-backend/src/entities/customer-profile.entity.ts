@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm';
 import { User } from './user.entity';
 
 @Entity('customer_profiles')
@@ -6,10 +6,11 @@ export class CustomerProfile {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ type: 'uuid', unique: true })
   userId: string;
 
   @OneToOne(() => User, user => user.customerProfile)
+  @JoinColumn()
   user: User;
 
   @Column({ type: 'jsonb', nullable: true })

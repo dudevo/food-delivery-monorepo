@@ -1,6 +1,7 @@
 import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -434,7 +435,7 @@ export class UserDetailComponent implements OnInit {
 
   private async loadUser(userId: string) {
     try {
-      const user = await this.userService.getUserById(userId);
+      const user = await firstValueFrom(this.userService.getUserById(userId));
       this.user.set(user || null);
     } catch (error) {
       this.snackBar.open('Failed to load user details', 'Close', { duration: 3000 });
@@ -447,7 +448,12 @@ export class UserDetailComponent implements OnInit {
       restaurant_owner: 'accent',
       courier: 'warn',
       admin: '',
-      super_admin: ''
+      super_admin: '',
+      ADMIN: '',
+      RESTAURANT_ADMIN: 'accent',
+      CUSTOMER: 'primary',
+      COURIER: 'warn',
+      AFFILIATE: 'accent'
     };
     return colorMap[role] || '';
   }

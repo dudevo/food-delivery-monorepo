@@ -2,6 +2,7 @@ import { Component, OnInit, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
@@ -357,18 +358,18 @@ export class UserListComponent implements OnInit {
   }
 
   private async loadUsers() {
-    const filters: UserFilters = {};
+    const filters: UserFilters = {
+      page: this.currentPage(),
+      limit: this.pageSize()
+    };
 
     if (this.searchQuery) filters.search = this.searchQuery;
     if (this.selectedRole) filters.role = this.selectedRole;
     if (this.selectedStatus) filters.status = this.selectedStatus;
 
     try {
-      const response = await this.userService.getUsers(
-        filters,
-        this.currentPage(),
-        this.pageSize()
-      );
+      const usersObservable = this.userService.getUsers(filters);
+      const response = await firstValueFrom(usersObservable);
 
       this.users.set(response.users);
       this.totalUsers.set(response.total);
@@ -412,15 +413,21 @@ export class UserListComponent implements OnInit {
       customer: 'primary',
       restaurant_owner: 'accent',
       courier: 'warn',
-      admin: '',
-      super_admin: ''
+      admin: 'primary',
+      super_admin: 'primary',
+      AFFILIATE: 'accent',
+      RESTAURANT_ADMIN: 'accent',
+      ADMIN: 'primary',
+      CUSTOMER: 'primary',
+      COURIER: 'warn'
     };
-    return colorMap[role];
+    return colorMap[role] || 'primary';
   }
 
   protected async changeUserStatus(userId: string, status: UserStatus) {
     try {
-      await this.userService.changeUserStatus(userId, status);
+      const statusObservable = this.userService.changeUserStatus(userId, status);
+      await firstValueFrom(statusObservable);
       this.snackBar.open('User status updated successfully', 'Close', { duration: 3000 });
       this.loadUsers();
     } catch (error) {

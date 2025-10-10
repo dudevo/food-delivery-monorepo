@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Logger } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { 
@@ -39,14 +39,24 @@ class RegisterResponseDto {
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
+  private readonly logger = new Logger(AuthController.name);
+  
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
   @ApiOperation({ summary: 'Login user' })
   @ApiResponse({ status: 200, description: 'Login successful', type: LoginResponseDto })
   @ApiResponse({ status: 401, description: 'Invalid credentials' })
-  login(@Body() loginDto: LoginDto): Promise<LoginResponse> {
-    return this.authService.login(loginDto);
+  async login(@Body() loginDto: LoginDto): Promise<LoginResponse> {
+    this.logger.log(`Login attempt for email: ${loginDto.email}`);
+    try {
+      const result = await this.authService.login(loginDto);
+      this.logger.log(`Login successful for email: ${loginDto.email}`);
+      return result;
+    } catch (error) {
+      this.logger.error(`Login failed for email: ${loginDto.email}`, error);
+      throw error;
+    }
   }
 
   @Post('register/customer')

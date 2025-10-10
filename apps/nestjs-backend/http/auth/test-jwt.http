@@ -1,0 +1,23 @@
+# JWT Authentication Test
+
+### 1. Login to get token
+http POST http://localhost:5001/api/auth/login \
+Content-Type: application/json
+
+{
+  "email": "admin.test@example.com",
+  "password": "Admin@123"
+}
+
+# Copy the access_token from the response above and replace YOUR_TOKEN_HERE below
+
+### 2. Test Protected Endpoint with Token
+http GET http://localhost:5001/api/users?page=1&limit=10 \
+Authorization: "Bearer YOUR_TOKEN_HERE"
+
+### 3. Test without Authorization header (should fail with 401)
+http GET http://localhost:5001/api/users?page=1&limit=10
+
+### 4. Test with invalid token (should fail with 401)
+http GET http://localhost:5001/api/users?page=1&limit=10 \
+Authorization: "Bearer invalid-token-here"

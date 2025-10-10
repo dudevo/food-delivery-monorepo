@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, Inject, forwardRef } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { 
   LoginDto, 
@@ -15,7 +15,7 @@ import { UserStatus } from '../user-role.enum';
 
 @Injectable()
 export class AuthService {
-  constructor(
+  constructor(    @Inject(forwardRef(() => UsersService))
     private usersService: UsersService,
     private jwtService: JwtService,
   ) {}
@@ -49,7 +49,13 @@ export class AuthService {
       status: user.status,
     };
 
+    // Log the JWT secret being used for signing
+    const signingSecret = process.env.JWT_SECRET || 'default-secret-key-change-in-production';
+    console.log('AuthService - JWT secret for signing:', signingSecret);
+    console.log('AuthService - Token payload:', payload);
+
     const access_token = this.jwtService.sign(payload);
+    console.log('AuthService - Generated token first 50 chars:', access_token.substring(0, 50));
 
     // Update last login
     await this.usersService.updateLastLogin(user.id);

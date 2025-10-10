@@ -17,6 +17,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 // Store Import
 import { AdminStore } from './store/admin.store';
+import { AuthService } from './services/auth.service';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -43,6 +44,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class App implements OnInit {
   protected readonly title = signal('Food Delivery Admin');
   protected readonly store = inject(AdminStore);
+  protected readonly authService = inject(AuthService);
   protected readonly router = inject(Router);
   protected readonly isSidenavOpen = signal(true);
   private readonly destroyRef = inject(DestroyRef);
@@ -73,6 +75,12 @@ export class App implements OnInit {
   }
 
   protected logout() {
-    this.store.logoutUser();
+    this.authService.logout();
+  }
+
+  // Helper to check if current route is login/register
+  protected isAuthRoute(): boolean {
+    const url = this.router.url;
+    return url.includes('/login') || url.includes('/register');
   }
 }

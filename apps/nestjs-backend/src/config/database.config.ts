@@ -25,7 +25,7 @@ export default registerAs('database', (): TypeOrmModuleOptions => {
     username: process.env.DB_USER || 'postgres',
     password: process.env.DB_PASSWORD || 'postgres',
     database: process.env.DB_NAME || 'food-delivery-nest-db',
-    synchronize: process.env.NODE_ENV === 'development',
+    synchronize: false, // Disable again since schema should be fixed
     logging: process.env.NODE_ENV === 'development',
     entities: [join(__dirname, '..', '**', '*.entity{.ts,.js}')],
     migrations: [join(__dirname, '..', 'migrations', '*{.ts,.js}')],

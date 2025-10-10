@@ -1,14 +1,15 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { UsersService } from './users.service';
+import { UsersController } from './users.controller';
 import { DatabaseModule } from '../database/database.module';
-import { User } from '../entities/user.entity';
-import { CustomerProfile } from '../entities/customer-profile.entity';
-import { CourierProfile } from '../entities/courier-profile.entity';
-import { RestaurantProfile } from '../entities/restaurant-profile.entity';
-import { AffiliateProfile } from '../entities/affiliate-profile.entity';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [
+    DatabaseModule,
+    forwardRef(() => AuthModule)
+  ],
+  controllers: [UsersController],
   providers: [UsersService],
   exports: [UsersService],
 })

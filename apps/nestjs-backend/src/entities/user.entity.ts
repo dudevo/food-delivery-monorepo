@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm';
 import { UserRole, UserStatus } from '../user-role.enum';
 import { CustomerProfile } from './customer-profile.entity';
 import { CourierProfile } from './courier-profile.entity';
